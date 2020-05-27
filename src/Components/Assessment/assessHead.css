@@ -1,0 +1,23 @@
+.assessment{
+    position: absolute;
+    border: 1px solid #ECECF9;
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 480px;
+    height: 304px;
+    float: right;
+    text-align: center;
+}
+
+.testbtn{
+    text-align: center;
+    margin-top: 70px;
+    width: 480px;
+}
+
+.assess-text{
+    font-weight: bold;
+    color: #2B3C4E;
+    text-align: left;
+    margin-left: 10px;
+}

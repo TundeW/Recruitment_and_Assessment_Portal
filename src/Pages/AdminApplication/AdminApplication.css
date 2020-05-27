@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+.admin-application-form{
+    padding-left: 23%;
+    margin-top: 70px;
+}
+
+.btn{
+    text-align: center;
+    cursor: pointer;
+}
+#file{
+    position: relative;
+    left: 50px;
+    top: 30px;
+}
+.admin-application-input{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 5px;
+}
+
+.upload-document-file{
+    border: 1.55172px dashed #2B3C4E;
+    box-sizing: border-box;
+    border-radius: 6.2069px;
+    width: 430px;
+    height: 108px;
+    margin-bottom: 30px;
+}
+
+
+.instruction-area{
+    width: 91%;
+    height: 144px;
+    border: 1.5px solid #2B3C4E;
+    box-sizing: border-box;
+    border-radius: 4px;
+    
+}
+.admin-instruction{
+    font-family: "Lato";
+    font-size: 14px;
+    line-height: 17px;
+    color: #2B3C4E;
+    margin-top: 35px;
+    font-style: normal;
+    font-weight: normal;
+}
+ h2{
+    margin: 0%;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 43.5555px;
+    line-height: 52px;
+    letter-spacing: -0.02em;
+    color: #2B3C4E;
+    margin-bottom: 55px;
+} 
+.admin-application-button{
+    text-align: center;
+    margin-right: 47px;
+    margin-top: 35px;
+    margin-bottom: 125px;
+}

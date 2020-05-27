@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap');
+
+body{
+    width: 1440px;
+    height: 1024px;
+}
+.mainpage{
+    background: #FDFDFF;
+    position: absolute;
+    width: 1440px;
+    height: 1024px;
+    background-size: 100vh;
+}
+.num{
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 300;
+}
+
+.dashboard{
+    position: absolute;
+    /* float: right; */
+    width: 1148px;
+    height: 1024px;
+    top: 0px;
+    left: 222px;
+    padding: 20px;
+} 
+
+.user-dashboard{
+    margin-right: 20px;
+}
+.dashboard-section{
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.25fr 0.25fr 0.25fr;
+    /* padding: 20px; */
+}
+
+.history{
+    position: absolute;
+    display: grid;
+    grid-template-columns: 0.1fr 0,1fr;
+}
+
+.dashtext{
+    font-family: 'Lato';
+    font-style: normal;
+    /* font-weight: 300; */
+    font-size: 43.5555px;
+    /* line-height: 52px; */
+    /* identical to box height */
+    letter-spacing: -0.02em;
+    color: #2B3C4E;
+}
+
+.num3{
+    font-weight: 300;
+    font-size: 48px;
+    line-height: 65px;
+    color: #2B3C4E;
+    margin-right: 80px;
+}
+
+.assessment{
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-left: 0px;
+}
+
+.assessment-section{
+    /* float: right; */
+    margin-left: 70px;
+}
+

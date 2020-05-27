@@ -1,0 +1,19 @@
+p{
+    font-size: 16px;
+    color: #2B3C4E;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: normal;
+}
+
+.history-content{
+    display: flex;
+    justify-content: space-between;
+    width: 462px;
+    margin-left: 20px;
+}
+
+.history-content p{
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+}

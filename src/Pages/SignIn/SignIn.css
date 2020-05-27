@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+.background-container{
+    margin: 0px;
+    padding: 0px;
+}
+.form{
+    display: block;
+    justify-content: center;
+    align-content: center;
+    font-family: 'Lato', sans-serif;
+}
+.sign-in-text{
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #2B3C4E;
+    text-align: center;
+    margin:0;
+    margin-top: 8px;
+    margin-bottom: 45px;
+
+}
+.form-label{
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+.form-label-input{
+    padding-bottom: 15px;
+}
+.button {
+    text-align: center;
+ }
+ .f-password {
+     display: flex;
+     justify-content: center;
+     font-style: italic;
+     font-weight: normal;
+     font-size: 14px;
+     line-height: 17px;
+     color: #4F4F4F;
+     margin-top: 15px;
+     margin: 0;
+ }
+ .forget-two{
+     margin-left: 64px;
+ }
+.error{
+    font-size: 10px;
+    color: red;
+}

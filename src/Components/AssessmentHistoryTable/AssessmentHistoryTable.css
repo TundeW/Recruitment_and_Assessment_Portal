@@ -1,0 +1,27 @@
+
+table{
+    border-collapse: collapse;
+    width: 780px;
+    height: 250px;
+    box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+    border-radius: 8px;
+}
+.table-head{
+    text-align: center;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+}
+.table-body{
+    display: grid;
+   grid-template-columns: auto auto auto auto auto;
+   margin-right: 100px;
+   grid-column-gap: 5px;
+}
+
+tr{
+    border-collapse: collapse;
+    border: none;
+}
+.table-body{
+    text-align: center;
+}

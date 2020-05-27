@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+.background{
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+.application-form{
+    display: grid;
+    justify-content: center;
+    font-family: 'Lato', sans-serif;
+    margin-right: 80px;
+}
+
+.application-form-body{
+    width: 800px;
+    height: 515px;
+    background: #ffffff;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding-top: 53px;
+    padding-left: 7%;
+    margin: auto;
+    padding-right: 7%;
+    padding-bottom: 39px;
+}
+.application-form-header{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.enyata-app-logo{
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    margin-left: 5%;
+}
+.enyata-name{
+    margin-top: 16px;
+    display: flex;
+    justify-content: center;
+    margin-left: 5%;
+}
+.form-title{
+    font-family: "Lato";
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #2B3C4E;
+    margin: 0;
+    margin-bottom: 26px;
+    margin-left: 5%;
+}
+.upload-document{
+    border: 1.5px dashed #2B3C4E;
+    box-sizing: border-box;
+    border-radius: 2.87205px;
+    width: 211px;
+    height: 49.97px;
+    margin: auto;
+    margin-left: 33%;
+    margin-bottom: 30px;
+}
+
+
+.upload-file{
+    text-align: center;
+    font-family: Avenir;
+    font-size: 16px;
+    line-height: 22px;
+    display: flex;
+    justify-content: center;
+    color: #2B3C4E;
+    margin-top: -5%;
+}
+.input-file{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.input-file + label{
+    font-weight: normal;
+    color: black;
+    background: #ffffff;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.application-form-input{
+    display: grid;
+    grid-template-columns: 1fr 0.45fr;
+    grid-column-gap: 35px;
+    margin-bottom: 29px;
+    align-items: center;
+}
+.submit-button{
+    margin-top: 35px;
+    text-align: center;
+}

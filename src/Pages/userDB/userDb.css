@@ -1,0 +1,105 @@
+.useriboard{
+    position: absolute;
+    width:1200px;
+    height: 1024px;
+    background-size: 100vh;
+}
+
+.user-dashboard{    
+    position: absolute;
+    float: right;
+    width: 1000px;
+    height: 1024px;
+    top: 0px;
+    left: 222px;
+    padding-left: 70px;
+}
+
+.application-section{
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.25fr 0.25fr 0.25fr;
+    /* padding: 20px; */
+}
+
+.user-assessment{
+    margin-top: 97px;
+    /* position: absolute; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.user-text{
+    font-family: 'Lato';
+    font-style: normal;
+    font-size: 43.5555px;
+    letter-spacing: -0.02em;
+    color: #2B3C4E;
+}
+
+.user-text2{
+    margin-top: 0px;
+    font-size: 14px;
+    line-height: 12px;
+    font-weight: bold;
+    color: #4F4F4F;
+    font-family: 'Nunito Sans', sans-serif;
+}
+/* @import url('https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap');
+
+
+
+.num{
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 300;
+}
+
+.dashboard{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    background: #FDFDFF;
+    background-size: 100vh;
+    width: 1240px;
+    float: left;
+} 
+
+.user-dashboard{
+    margin-right: 20px;
+}
+.dashboard-section{
+    display: grid;
+    grid-template-columns: 0.25fr 0.25fr 0.25fr;
+    padding: 20px;
+}
+
+.dashtext{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 43.5555px;
+    line-height: 52px;
+    letter-spacing: -0.02em;
+    color: #2B3C4E;
+}
+
+.num3{
+    font-weight: 300;
+    font-size: 48px;
+    line-height: 65px;
+    color: #2B3C4E;
+    margin-right: 80px;
+}
+
+.assessment{
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-left: 0px;
+}
+
+.assessment-section{
+    float: right;
+    margin-left: 70px;
+} */

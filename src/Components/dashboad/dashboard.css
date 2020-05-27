@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300&family=Nunito+Sans:ital,wght@1,300&display=swap');
+
+.dash-text{
+    font-size: 14px;
+    line-height: 12px;
+    font-weight: bold;
+    /* text-align: center; */
+    color: #4F4F4F;
+    font-family: 'Nunito Sans', sans-serif;
+    /* display: flex; */
+    /* margin-left: 65px; */
+}
+
+.dash-num{
+    font-weight: 300;
+    font-size: 48px;
+    /* line-height: 65px; */
+    color: #2B3C4E;
+}
+
+.dash-text2{
+    font-size: 12px;
+    line-height: 16px;
+    color: #4F4F4F;
+}
+
+

@@ -1,0 +1,50 @@
+.background-grid{
+    display: grid;
+    grid-template-columns: 1fr 0.2fr;
+}
+.e-logo{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.login-background{
+    background: #111E2B;
+    background-size: cover;
+}
+div.background-image{
+    position: relative;
+    margin-top: 50px;
+}
+.admin-form{
+    display: block;
+    justify-content: center;
+    align-items: center;
+    margin-top: 173px;
+    float: right;
+    margin-right: -25px;
+}
+.forget-admin-password{
+    display: flex;
+    float: right;
+    margin: 0;
+    font-family: 'Lato';
+    font-style: italic;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+}
+.input-container, .button-container{
+    float: right;
+    width: 370px;
+    justify-content: center;
+    align-items: center;
+}
+.admin-login-button{
+    margin-top: 34px;
+}
+.label{
+    color: #FFFFFF;
+}
+

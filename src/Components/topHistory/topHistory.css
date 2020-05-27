@@ -1,0 +1,12 @@
+.head{
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.02em;
+    color: #2B3C4E;
+}
+
+#time{
+    font-size: 12px;
+    line-height: 16px;
+}

@@ -1,0 +1,59 @@
+.compose-assessment-form{
+    margin-left: 23%;
+    margin-top: 70px;
+}
+.question-area{
+    width: 91%;
+    height: 144px;
+    border: 1.5px solid #2B3C4E;
+    box-sizing: border-box;
+    border-radius: 4px;  
+}
+.admin-questions{
+    font-family: "Lato";
+    font-size: 14px;
+    line-height: 17px;
+    color: #2B3C4E;
+    margin-top: 35px;
+    font-style: normal;
+    font-weight: normal;
+}
+h2{
+    /* margin-top: 100px; */
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 43.5555px;
+    line-height: 52px;
+    letter-spacing: -0.02em;
+    color: #2B3C4E;
+    margin-bottom: 47px;
+}
+.compose-assessment-input{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 5px;
+    margin-top: 20px;
+}
+.compose-assessment-button{
+    display: grid;
+    grid-template-columns: 0.5fr 0.45fr;
+   text-align: center;
+   margin-left: -50px;
+   margin-top: 49px;
+}
+.finish{
+    text-align: center;
+    margin-right: 7%;
+    margin-top: 50px;
+    margin-bottom: 80px;
+}
+.question-number{
+    margin-bottom: 20px;
+    font-family: "Lato";
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    color: #2B3C4E;
+}

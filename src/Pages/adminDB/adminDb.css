@@ -1,0 +1,49 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Lato:wght@100&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300&display=swap');
+
+.mainpage{
+    position: absolute;
+    width:1200px;
+    height: 1024px;
+    background-size: 100vh;
+}
+
+.dashboard{
+    position: absolute;
+    float: right;
+    width: 1000px;
+    height: 1024px;
+    top: 0px;
+    left: 222px;
+    padding-left: 70px;
+} 
+
+.dashboard-section{
+    position: relative;
+    display: grid;
+    grid-template-columns: 0.25fr 0.25fr 0.25fr;
+    /* padding: 20px; */
+}
+
+.history{
+    margin-top: 30px;
+    position: absolute;
+    display: grid;
+    grid-template-columns: 0.1fr 0.1fr;
+}
+
+.dashtext{
+    font-family: 'Lato';
+    font-style: normal;
+    font-size: 43.5555px;
+    letter-spacing: -0.02em;
+    color: #2B3C4E;
+}
+
+.assessment-section{
+    text-align: left;
+    width: 482px;
+    height: 307px;
+    margin-left: 20px;
+}
+

@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
+.input-box{
+    margin-top: 5px;
+    width: 370px;
+    height: 41px;
+    /*border: 1.5px solid #BDBDBD;*/
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 14px;
+    color: #4F4F4F;
+    font-family: 'Lato';
+}
+.label-name{
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #4F4F4F;
+}
+.user{
+    border: 1.5px solid #BDBDBD;  
+}
+.application{
+    border: 1.5px solid #2B3C4E;
+}
+.admin{
+    border: 1.5px solid #FFFFFF;
+    background: #111E2B;
+}
+.admin-label{
+    color: #FFFFFF;
+}
+.admin-application-forminput{
+    border: 1.5px solid #2B3C4E;
+    width: 430px;
+}
+.application-label{
+    color: #2B3C4E;
+}
+.instruction-box{
+    width: 91%;
+    height: 144px;
+    border: 1.5px solid #2B3C4E;
+    box-sizing: border-box;
+    border-radius: 4px;
+    
+}

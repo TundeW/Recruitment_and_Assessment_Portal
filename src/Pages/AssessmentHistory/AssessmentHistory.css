@@ -1,0 +1,32 @@
+.assessment-history-button{
+    text-align: center;
+    margin-right: 8%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.assessment-history{
+    margin-left: 20.5%;
+}
+
+.assessment-history-input{
+    margin-left: 3.5%;
+} 
+.assessment-instruction{
+    width: 92%;
+    height: 144px;
+    border: 1.5px solid #2B3C4E;
+    box-sizing: border-box;
+    border-radius: 4px;
+    
+}
+.upload-assessment-file{
+    border: 1.55172px dashed #2B3C4E;
+    box-sizing: border-box;
+    border-radius: 6.2069px;
+    width: 430px;
+    height: 108px;
+    margin-bottom: 10px;
+    margin-left: 3.5%;
+    margin-top: 80px;
+}

@@ -1,0 +1,30 @@
+.timer{
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 19px;
+    margin-top: 50px;
+}
+
+.time-count{
+    display: flex;
+}
+
+#num{
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 48px;
+    margin-top: 0px;
+    /* line-height: 58px */
+}
+
+#num-text{
+    font-family: Lato;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    margin-top: 37px;
+}
