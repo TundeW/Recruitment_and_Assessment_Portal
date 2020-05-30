@@ -8,9 +8,11 @@ const assessHead = (props) => {
         <div className='assessment' >
             <p className='assess-text'>{props.text} </p>
             <div className='testbtn'>
-                <AssessTest text='Create test question for an incoming academy students' />
-                {/* <p id='test'>Create test question for an incoming academy students</p> */}
-                <Button text={props.text} />
+            <br/>
+                <AssessTest text={props.content_one}  />
+                <p> {props.content_two}</p>
+                <br />
+                <Button text={props.text} color="finish-button"/>
             </div>
         </div>
     )

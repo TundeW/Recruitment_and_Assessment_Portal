@@ -2,6 +2,9 @@ import React from 'react'
 import './dashboard.css'
 
 const dashBoard = (props) => {
+
+
+
     return (
         <div className='dash-bar'>
             <p className='dash-text'>{props.app} </p>

@@ -6,7 +6,7 @@ import logo1 from './enyata logo.svg';
 import './ApplicationForm.css'
 
 
-function ApplicationForm() {
+function ApplicationForm(props) {
     const [state, setState] = useState({
         file: "",
         first_name: null,
@@ -34,10 +34,17 @@ function ApplicationForm() {
 
     const validateForm = (errors) => {
         let valid = true;
-       Object.values(errors).forEach( // if we have an error string set valid to false 
-           (val) => val.length > 0 && (valid = false) 
+       Object.values(errors).forEach( // if we have an error string set valid to false
+           (val) => val.length > 0 && (valid = false)
        );
-       return valid; 
+       return valid;
+   }
+
+   const onChangeHandler = event =>{
+        // console.log(event.target.files[0])
+        setState({
+            file: event.target.files[0]
+        })
    }
 
     const handleChange = e => {
@@ -100,36 +107,70 @@ function ApplicationForm() {
           ...state, errors, [name]: value
         });
       };
-      
+
       const { errors } = state;
 
     const submitForm = (e) => {
         e.preventDefault();
         if(validateForm(state.errors)) {
+            const request = (({ errors, ...o }) => o)(state)
+            const token = localStorage.getItem("token")
+
+            const requestOptions = {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'auth': token
+                },
+                body: request,
+            };
+            console.log('apple')
+
+            const url = 'http://localhost:5000/api/v1/auth/apply';
+
+            // fetch(url, requestOptions)
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         if (data.message) {
+            //             // Here you should have logic to handle invalid creation of a user.
+            //             // This assumes your Rails API will return a JSON object with a key of
+            //             // 'message' if there is an error with creating the user, i.e. invalid username
+            //             console.log(data.message)
+            //         } else {
+            //             console.log(data.response)
+            //             // console.log(data.data.token)
+            //             // console.log(data.user)
+            //             props.history.push({
+            //                 pathname: '/user/dashboard'
+            //             })
+            //
+            //         }
+            //     })
+            //     .catch(error => console.log(error));
             console.log(state)
-            setState({
-             ...state,
-             file:"",
-             first_name: "",
-             last_name: "",
-             email: "",
-             date_of_birth: "",
-             address: "",
-             university: "",
-             course_of_study: "",
-             cgpa:"",
-         })
+            // setState({
+            //  ...state,
+            //  file:"",
+            //  first_name: "",
+            //  last_name: "",
+            //  email: "",
+            //  date_of_birth: "",
+            //  address: "",
+            //  university: "",
+            //  course_of_study: "",
+            //  cgpa:"",
+         //})
         }else{
             console.log('Invalid Form')
         }
-      
+
     }
 
     return (
         <div className="application-form">
             <div className="application-form-header">
                 <div className="enyata-app-logo">
-                    <img src={logo} alt="Enyata logo"/> 
+                    <img src={logo} alt="Enyata logo"/>
                 </div>
                 <div className="enyata-name">
                     <img src={logo1} alt="Enyata logo" />
@@ -138,10 +179,10 @@ function ApplicationForm() {
             </div>
             <div className="application-form-body">
                 <div className="upload-document">
-                    <div> 
-                        <input type="file" id="file"  name="file" value={state.file} onChange={handleChange}/>
+                    <div>
+                        <input type="file" id="file"  name="file" value={state.file} onChange={onChangeHandler}/>
                         <label for="file">Upload CV</label>
-                    </div> 
+                    </div>
                 </div>
                 <div className="application-form-input">
                 <div>

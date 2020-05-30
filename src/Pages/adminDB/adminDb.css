@@ -16,7 +16,8 @@
     top: 0px;
     left: 222px;
     padding-left: 70px;
-} 
+    margin-top: 70px;
+}
 
 .dashboard-section{
     position: relative;
@@ -26,7 +27,7 @@
 }
 
 .history{
-    margin-top: 30px;
+    margin-top: 50px;
     position: absolute;
     display: grid;
     grid-template-columns: 0.1fr 0.1fr;
@@ -38,6 +39,7 @@
     font-size: 43.5555px;
     letter-spacing: -0.02em;
     color: #2B3C4E;
+    margin-bottom: 50px;
 }
 
 .assessment-section{
@@ -47,3 +49,6 @@
     margin-left: 20px;
 }
 
+.history-list {
+    display: flex;
+}

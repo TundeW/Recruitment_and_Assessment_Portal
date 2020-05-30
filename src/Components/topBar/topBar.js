@@ -1,13 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './topBar.css';
 import josh from '../dashboardIcons/Ellipse.svg';
+import { UserContext } from '../../context/UserContext';
 
-const topBar = (props) => {
+const TopBar = (props) => {
 
-    let className = 'top-bar';
+    const { user, first_name, last_name, email } = useContext(UserContext);
+
+
+
     // if (props.isActive) {
     //   className += ' menu-active';
     // }
+
+    let userName;
+    let userEmail;
+
+    let classtopBar;
+    switch(props.style) {
+        case "top-bar":
+            classtopBar = "top-bar"
+            userName = "josh"
+            userEmail = "joshe"
+            break;
+        case "user-top-bar":
+            classtopBar = "user-top-bar"
+            userName = "user-name"
+            userEmail = "user-email"
+            break;
+        default:
+    }
 
     let classtyle;
     switch (props.color) {
@@ -20,14 +42,15 @@ const topBar = (props) => {
         default:
     }
     return (
-        <div className={className}>
+
+        <div className={classtopBar}>
         <div className="enyata-profile">
-            <img src={josh}  alt="enyata-profile" />
+            <img src={props.img}  alt="enyata-profile" />
         </div>
-            <p className='josh'>Josh Doe</p>
-            <p className='joshe'>j.doe@enyata.com</p>
+            <p className={userName}>{first_name + " " + last_name}</p>
+            <p className={userEmail}>{email}</p>
         </div>
     )
 }
 
-export default topBar
+export default TopBar

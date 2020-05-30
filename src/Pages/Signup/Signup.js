@@ -5,8 +5,9 @@ import ReactDOM from "react-dom";
 import logo from './Enyata.svg';
 import logo1 from './enyata logo.svg';
 import './Signup.css'
+import eyes from '../../Components/mainicons/eyeslogo.svg'
 
-function Signup() {
+function Signup(props) {
     const [state, setState] = useState({
         first_name: null,
         last_name: null,
@@ -24,22 +25,33 @@ function Signup() {
         }
     });
 
+    const [passwordShown, setPasswordShown] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setPasswordShown(passwordShown ? false: true);
+    }
+    const [Shown, setShown] = useState(false);
+
+    const PasswordVisibility = () => {
+        setShown(Shown ? false: true);
+    }
+
     const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
     const validateForm = (errors) => {
          let valid = true;
-        Object.values(errors).forEach( // if we have an error string set valid to false 
-            (val) => val.length > 0 && (valid = false) 
+        Object.values(errors).forEach( // if we have an error string set valid to false
+            (val) => val.length > 0 && (valid = false)
         );
-        return valid; 
+        return valid;
     }
-        
+
     const handleChange = e => {
         e.preventDefault();
         const { name, value } = e.target;
         let errors = state.errors;
 
-        
+
         switch (name) {
             case 'first_name':
                 errors.first_name =
@@ -67,7 +79,7 @@ function Signup() {
                 break;
             case 'password':
                 errors.password =
-                    value.length < 8
+                    value.length < 3
                         ? 'Password must be 8 characters long!'
                         : '';
                 break;
@@ -86,24 +98,54 @@ function Signup() {
         });
       };
       const { errors} = state;
-      
+
 
     const submitForm = (e) => {
         e.preventDefault();
-        if(validateForm(state.errors)) { 
-            console.log(state)
-            setState({
-             ...state,
-             first_name: "",
-             last_name: "",
-             email: "",
-             phone_number: "",
-             password: "",
-             confirm_password: "",
-            })
-        }else{ 
+        if(validateForm(state.errors)) {
+            // console.log(state)
+            const request = (({ errors, confirm_password, ...o }) => o)(state)
+            console.log(request)
+
+            const requestOptions = {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(request),
+            };
+
+            const url = 'http://localhost:5000/api/v1/auth/signup';
+
+            fetch(url, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        // Here you should have logic to handle invalid creation of a user.
+                        // This assumes your Rails API will return a JSON object with a key of
+                        // 'message' if there is an error with creating the user, i.e. invalid username
+                        console.log(data.message)
+                    } else {
+                        console.log(data.response)
+                        // console.log(data.data.token)
+                        // console.log(data.user)
+                        props.history.push({
+                            pathname: '/signin'
+                        })
+                    }
+                })
+                .catch(error => console.log(error));
+
+            // setState({
+            //  ...state,
+            //  first_name: "",
+            //  last_name: "",
+            //  email: "",
+            //  phone_number: "",
+            //  password: "",
+            //  confirm_password: "",
+            // })
+        }else{
             console.log('Invalid Form') }
-       
+
     }
 
     return (
@@ -139,11 +181,13 @@ function Signup() {
                 </div>
                 <div className="form-input1">
                 <div>
-                <FormInput label="Password" type='password' name="password"  value={state.password} change={handleChange} labelColor="label-name"/>
+                <FormInput label="Password" type={passwordShown ? "text" : "password"} name="password"  value={state.password} change={handleChange} labelColor="label-name"/>
+                <div className="eyes" onClick={togglePasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
                 {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                 </div>
                 <div>
-                <FormInput label= "Confirm password" type='password' name="confirm_password"  value={state.confirm_password} change={handleChange} labelColor="label-name"/>
+                <FormInput label= "Confirm password" type={Shown ? "text" : "password"} name="confirm_password"  value={state.confirm_password} change={handleChange} labelColor="label-name"/>
+                <div className="eyes" onClick={PasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
                 {errors.confirm_password.length > 0 && <span className='error'>{errors.confirm_password}</span>}
                 </div>
                 </div>

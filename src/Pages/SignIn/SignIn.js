@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import FormInput from '../../Components/FormInput/FormInput';
 import Button from '../../Components/Button/Button'
 import logo from './Enyata.svg';
 import logo1 from './enyata logo.svg';
 import './SignIn.css'
+import { UserContext } from '../../context/UserContext';
+import eyes from '../../Components/mainicons/eyeslogo.svg'
 
-function SignIn() {
+
+function SignIn(props) {
     const [state, setState] = useState({
         email: null,
         password: null,
@@ -15,15 +18,21 @@ function SignIn() {
         }
     });
 
+    const [passwordShown, setPasswordShown] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setPasswordShown(passwordShown ? false: true);
+    }
+
 
     const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
     const validateForm = (errors) => {
         let valid = true;
-       Object.values(errors).forEach( // if we have an error string set valid to false 
-           (val) => val.length > 0 && (valid = false) 
+       Object.values(errors).forEach( // if we have an error string set valid to false
+           (val) => val.length > 0 && (valid = false)
        );
-       return valid; 
+       return valid;
    }
 
     const handleChange = e => {
@@ -40,8 +49,8 @@ function SignIn() {
                 break;
             case 'password':
                 errors.password =
-                    value.length < 8
-                        ? 'Password must be 8 characters long!'
+                    value.length < 3
+                        ? 'Password must be 3 characters long!'
                         : '';
                 break;
             default:
@@ -53,20 +62,62 @@ function SignIn() {
     };
     const { errors } = state;
 
+    const { updateUser } = useContext(UserContext);
+
 
     const submitForm = (e) => {
         e.preventDefault()
         if(validateForm(state.errors)) {
-            console.log(state)
-        setState({
-            ...state,
-            email: "",
-            password: "",
-        })
+            const request = (({ errors, ...o }) => o)(state)
+            // console.log(request)
+
+            const requestOptions = {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(request),
+            };
+
+            const url = 'http://localhost:5000/api/v1/auth/login';
+
+
+            fetch(url, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        // Here you should have logic to handle invalid creation of a user.
+                        // This assumes your Rails API will return a JSON object with a key of
+                        // 'message' if there is an error with creating the user, i.e. invalid username
+                        console.log(data.message)
+                    } else {
+                        console.log(data.response)
+                        // console.log(data.data.token)
+                        // console.log(data.user)
+                        localStorage.setItem("token", data.data.token)
+                        if (data.user.application) {
+                            props.history.push({
+                                pathname: '/user/dashboard'
+                            })
+                        }else{
+                            props.history.push({
+                                pathname: '/application'
+                            })
+                        }
+                    }
+                })
+                .catch(error => console.log(error));
+
+
+
+
+        // setState({
+        //     ...state,
+        //     email: "",
+        //     password: "",
+        // })
         }else{
             console.log('Invalid Form')
         }
-        
+
     }
 
     return (
@@ -84,7 +135,8 @@ function SignIn() {
                         <FormInput label="Email Address" type='text' name="email" value={state.email} change={handleChange} labelColor="label-name"  noValidate />
                         {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
                         <br />
-                        <FormInput label="Password" type='password' name="password" value={state.password} change={handleChange} labelColor="label-name" noValidate />
+                        <FormInput label="Password" type={passwordShown ? "text" : "password"} name="password" value={state.password} change={handleChange} labelColor="label-name" noValidate />
+                        <div className="eyes-signin" onClick={togglePasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
                         {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                     </div>
                     <div className="submit-button">

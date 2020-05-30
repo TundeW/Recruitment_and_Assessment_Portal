@@ -16,7 +16,7 @@ const sideBar = () => {
     return (
         <div>
             <div className='sidebar'>
-                <TopBar />
+                <TopBar style="top-bar" img={josh}/>
                 <div className='tab-list'>
                     <IconTab icon={Rectangle} img={dashIcon} text='Dashboard' link='/admin/home' />
                     <IconTab img={createIcon} text='Create Application' link='/admin/application' />
@@ -31,4 +31,3 @@ const sideBar = () => {
 }
 
 export default sideBar
-

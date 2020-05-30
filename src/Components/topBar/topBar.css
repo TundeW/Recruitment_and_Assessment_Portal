@@ -4,8 +4,41 @@
     background: #5ABEFD;
     text-align: center;
     line-height: 19px;
-} 
+}
 
 .enyata-profile {
     padding-top: 25%;
+}
+.user-top-bar{
+    width: 235px;
+    height: 230px;
+    background: #2B3C4E;
+    text-align: center;
+    line-height: 19px;
+}
+.joshe{
+    font-size: 16px;
+    color: #2B3C4E;
+    font-family: 'Lato', sans-serif;
+    font-weight: normal;
+    margin-top: 5px;
+}
+.josh{
+    color: #2B3C4E;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 12px;
+}
+.user-name{
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 12px;
+}
+.user-email{
+    font-size: 16px;
+    color: white;
+    font-family: 'Lato', sans-serif;
+    font-weight: normal;
+    margin-top: 5px;
 }

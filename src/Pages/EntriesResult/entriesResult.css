@@ -1,0 +1,30 @@
+#score{
+    display: flex;
+    text-align: center;
+    margin-top: 15px;
+}
+
+#scorebtn {
+    display: block;
+    width: 8px;
+    height: 10px;
+    /* margin-left: 8px;*/
+    background-color: #2B3C4E;
+    justify-content: center;
+}
+
+#scorebtn2 {
+    width: 8px;
+    height: 10px;
+    fill: #2B3C4E;
+    margin-top: 10px;
+    margin-left: -8px;
+}
+
+.ent-table {
+    border-collapse: collapse;
+    width: 1200px;
+    position: absolute;
+    left: 104px;
+    top: 230px;
+}

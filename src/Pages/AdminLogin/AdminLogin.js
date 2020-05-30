@@ -5,9 +5,11 @@ import Enyatalogo from './enyata-white-logo.svg';
 import Enyatalogo2 from './enyata.svg'
 import './AdminLogin.css'
 import background from './background.svg'
+import eyes from '../../Components/mainicons/eyesadminlogo.svg'
 
 
-function AdminLogin() {
+
+function AdminLogin(props) {
     const [state, setState] = useState({
         email: null,
         password: null,
@@ -17,14 +19,25 @@ function AdminLogin() {
         }
     });
 
+
+
+    const [passwordShown, setPasswordShown] = useState(false);
+
+    console.log(passwordShown)
+    console.log(setPasswordShown)
+
+    const togglePasswordVisibility = () => {
+        setPasswordShown(passwordShown ? false: true);
+    }
+
     const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
     const validateForm = (errors) => {
         let valid = true;
-       Object.values(errors).forEach( // if we have an error string set valid to false 
-           (val) => val.length > 0 && (valid = false) 
+       Object.values(errors).forEach( // if we have an error string set valid to false
+           (val) => val.length > 0 && (valid = false)
        );
-       return valid; 
+       return valid;
    }
 
     const handleChange = e => {
@@ -41,7 +54,7 @@ function AdminLogin() {
                 break;
             case 'password':
                 errors.password =
-                    value.length < 8
+                    value.length < 3
                         ? 'Password must be 8 characters long!'
                         : '';
                 break;
@@ -57,16 +70,47 @@ function AdminLogin() {
     const submitForm = (e) => {
         e.preventDefault();
         if(validateForm(state.errors)){
-            console.log(state)
-            setState({
-             ...state,
-             email: "",
-             password: "",
-         })
+            const request = (({ errors, ...o }) => o)(state)
+
+            const requestOptions = {
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(request),
+            };
+
+            const url = 'http://localhost:5000/api/v1/auth/admin/login';
+
+            fetch(url, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        // Here you should have logic to handle invalid creation of a user.
+                        // This assumes your Rails API will return a JSON object with a key of
+                        // 'message' if there is an error with creating the user, i.e. invalid username
+                        console.log(data.message)
+                    } else {
+                        console.log(data.response)
+                        // console.log(data.data.token)
+                        // console.log(data.user)
+                        localStorage.setItem("token", data.data.token)
+                        props.history.push({
+                            pathname: '/admin/dashboard'
+                        })
+
+                    }
+                })
+                .catch(error => console.log(error));
+
+         //    console.log(state)
+         //    setState({
+         //     ...state,
+         //     email: "",
+         //     password: "",
+         // })
         }else{
             console.log('Invalid Form')
         }
-      
+
     }
 
     return (
@@ -84,7 +128,8 @@ function AdminLogin() {
                     <FormInput label="Email Address" type='text' name="email"  value={state.email} change={handleChange} color="admin" labelColor="admin-label"/>
                     {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
                     <br />
-                    <FormInput label="Password" type='password' name="password"  value={state.password} change={handleChange} color="admin" labelColor="admin-label"/>
+                    <FormInput label="Password" type={passwordShown ? "text" : "password"} name="password"  value={state.password} change={handleChange} color="admin" labelColor="admin-label"/>
+                    <div className="eyes-admin-signin" onClick={togglePasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
                     {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                     <div className="admin-login-button">
                     <span onClick={submitForm}><Button text="Sign In" color="admin-log"/></span>
@@ -99,7 +144,7 @@ function AdminLogin() {
                 <br/>
             </div>
         </div>
-    
+
     )
 }
 
