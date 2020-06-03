@@ -62,18 +62,13 @@
     margin: auto;
     margin-left: 33%;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 
+
 .upload-file{
-    text-align: center;
-    font-family: Avenir;
-    font-size: 16px;
-    line-height: 22px;
-    display: flex;
-    justify-content: center;
-    color: #2B3C4E;
-    margin-top: -5%;
+margin-left: 10%;
 }
 .input-file{
     width: 0.1px;
@@ -101,4 +96,12 @@
 .submit-button{
     margin-top: 35px;
     text-align: center;
+}
+
+.file-text-application{
+margin-top: -13px;
+}
+.plusicon-application{
+margin-right: 125px;
+margin-top: -8%;
 }

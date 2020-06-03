@@ -10,6 +10,9 @@
     border: none;
     margin-bottom: 12px;
 }
+.Button:hover{
+    cursor: pointer;
+}
 .admin-log{
     background: #ffff;
     font-family: 'Lato', sans-serif;
@@ -27,4 +30,10 @@
     width: 205px;
     height: 41px;
     background: #CECECE;
+}
+.success-button{
+    width: 205px;
+    height: 41px;
+    background: #31D283;
+    border-radius: 4px;
 }

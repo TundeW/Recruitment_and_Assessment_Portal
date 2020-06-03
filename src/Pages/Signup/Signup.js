@@ -9,12 +9,12 @@ import eyes from '../../Components/mainicons/eyeslogo.svg'
 
 function Signup(props) {
     const [state, setState] = useState({
-        first_name: null,
-        last_name: null,
-        email: null,
-        phone_number: null,
-        password: null,
-        confirm_password: null,
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone_number: '',
+        password: '',
+        confirm_password: '',
         errors: {
             first_name: '',
             last_name: '',
@@ -22,7 +22,8 @@ function Signup(props) {
             phone_number: '',
             password: '',
             confirm_password: '',
-        }
+        },
+        submitErrors: ''
     });
 
     const [passwordShown, setPasswordShown] = useState(false);
@@ -104,7 +105,7 @@ function Signup(props) {
         e.preventDefault();
         if(validateForm(state.errors)) {
             // console.log(state)
-            const request = (({ errors, confirm_password, ...o }) => o)(state)
+            const request = (({ errors, submitErrors, confirm_password, ...o }) => o)(state)
             console.log(request)
 
             const requestOptions = {
@@ -122,6 +123,9 @@ function Signup(props) {
                         // Here you should have logic to handle invalid creation of a user.
                         // This assumes your Rails API will return a JSON object with a key of
                         // 'message' if there is an error with creating the user, i.e. invalid username
+                        setState({
+                           ...state, submitErrors: data.message
+                        })
                         console.log(data.message)
                     } else {
                         console.log(data.response)
@@ -183,18 +187,19 @@ function Signup(props) {
                 <div>
                 <FormInput label="Password" type={passwordShown ? "text" : "password"} name="password"  value={state.password} change={handleChange} labelColor="label-name"/>
                 <div className="eyes" onClick={togglePasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
-                {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
+                <div className="error-message">{errors.password.length > 0 && <span className='error'>{errors.password}</span>}</div>
                 </div>
                 <div>
                 <FormInput label= "Confirm password" type={Shown ? "text" : "password"} name="confirm_password"  value={state.confirm_password} change={handleChange} labelColor="label-name"/>
                 <div className="eyes" onClick={PasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
-                {errors.confirm_password.length > 0 && <span className='error'>{errors.confirm_password}</span>}
+                <div className="error-message">{errors.confirm_password.length > 0 && <span className='error'>{errors.confirm_password}</span>}</div>
                 </div>
                 </div>
                 </form>
                 <div className="button">
                 <span  onClick= {submitForm}><Button  text="Sign Up" color="Button"/></span>
                 </div>
+                <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                 <div className="forgot-password">
                 <span>Already have an account?<a href="signin"> Sign In</a></span>
                 </div>

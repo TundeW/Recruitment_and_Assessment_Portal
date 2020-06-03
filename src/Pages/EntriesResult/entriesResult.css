@@ -1,14 +1,141 @@
-#score{
+.result-select{
+    position: absolute;
+    width: 299px;
+    height: 53px;
+    left: 334px;
+    top: 101px;
+    border: #2B3C4E;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 43.5555px;
+    justify-content: left;
+    line-height: 52px;
+    margin-bottom: 20px;
+}
+
+.result-entries{
+    display: inline-flex;
+    width: auto;
+   width: 450px;
+   /* / margin-top: 100px; / */
+}
+
+.result-entries select{
+    background: #fff;
+    color: #2B3C4E;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 300;
+    margin-top: -6px;
+    width: 180px;
+    height: 63px;
+    border: none;
+    font-size: 43.5555px;
+    outline: none;
+}
+
+.result-entries select option{
+    border: oldlace;
+    border-radius: 8px;
+    outline: none;
+    background-color: #fff;
+    height: 23px;
+    font-size: 23.5555px;
+}
+
+.tbody .tr:hover {
+    box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+    border-left: 4px solid #31D283 ;
+    border-radius: 8px;
+
+}
+
+#result-entry-text{
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 43.5555px;
+    margin-top: 0px;
+}
+
+.entrytable {
+    border-collapse: collapse;
+    width: 1150px;
+    left: 334px;
+    position: absolute;
+    top: 230px;
+
+}
+
+.tbody .tr{
+    margin-top: 40px;
+}
+.entrytable .thead .tr{
+    background-color: #2B3C4E;
+    color: #fff;
+}
+
+ .entrytable .tbody .tr td{
+    height: 40px;
+}
+
+.tbody .tr td {
+    text-align: center;
+    color: #2B3C4E;
+}
+
+.tr{
+    height: 70px;
+}
+
+#result-entry-text2{
+    margin-top: 0px;
+}
+
+#cgpa{
     display: flex;
     text-align: center;
     margin-top: 15px;
+}
+
+#score{
+    text-align: absolute;
+    margin-bottom: 0px;
+    margin-left: 0px;
+}
+
+#cgpabtn {
+    display: block;
+    width: 8px;
+    height: 12px;
+    margin-left: 8px;
+    background-color: #2B3C4E;
+    justify-content: center;
+}
+
+#agebtn {
+    display: block;
+    width: 8px;
+    height: 12px;
+    margin-left: 8px;
+    background-color: #2B3C4E;
+    justify-content: center;
+}
+
+#cgpabtn2 {
+    width: 8px;
+    height: 10px;
+    fill: #2B3C4E;
+    margin-top: 10px;
+    margin-left: -8px;
 }
 
 #scorebtn {
     display: block;
     width: 8px;
     height: 10px;
-    /* margin-left: 8px;*/
+    margin-left: 202px;
     background-color: #2B3C4E;
     justify-content: center;
 }
@@ -17,14 +144,21 @@
     width: 8px;
     height: 10px;
     fill: #2B3C4E;
-    margin-top: 10px;
-    margin-left: -8px;
+    margin-bottom: 10px;
+    margin-left: 134px;
 }
 
-.ent-table {
-    border-collapse: collapse;
-    width: 1200px;
-    position: absolute;
-    left: 104px;
-    top: 230px;
+#age{
+    display: flex;
+    text-align: center;
+    margin-top: 10px;
+    margin-left: 80px;
+}
+
+#agebtn2 {
+    width: 8px;
+    height: 12px;
+    fill: #2B3C4E;
+    margin-top: 10px;
+    margin-left: -8px;
 }

@@ -1,14 +1,16 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import FormInput from '../../Components/FormInput/FormInput';
 import Button from '../../Components/Button/Button'
 import logo from './Enyata.svg';
 import logo1 from './enyata logo.svg';
 import './ApplicationForm.css'
+import plusicon from '../../Components/mainicons/plus icon.svg'
+
 
 
 function ApplicationForm(props) {
     const [state, setState] = useState({
-        file: "",
+        file: null,
         first_name: null,
         last_name: null,
         email: null,
@@ -17,7 +19,9 @@ function ApplicationForm(props) {
         university: null,
         course_of_study: null,
         cgpa: null,
+        application_id: null,
         errors: {
+            file: '',
             first_name: "",
             last_name: "",
             email: "",
@@ -28,6 +32,11 @@ function ApplicationForm(props) {
             cgpa:"",
         }
     });
+
+    useEffect(()=>{
+        const { id } = props.match.params;
+        setState({...state, application_id: id})
+    },[])
 
     const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
     const dateofBirthRegex = RegExp(/^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$/)
@@ -40,11 +49,12 @@ function ApplicationForm(props) {
        return valid;
    }
 
-   const onChangeHandler = event =>{
-        // console.log(event.target.files[0])
-        setState({
-            file: event.target.files[0]
-        })
+   const fileChange = e => {
+       e.preventDefault()
+       setState({
+           ...state,
+           file: e.target.files[0]
+       })
    }
 
     const handleChange = e => {
@@ -73,9 +83,12 @@ function ApplicationForm(props) {
                 break;
             case 'date_of_birth':
                 errors.date_of_birth =
-                    dateofBirthRegex.test(value)
-                        ? ''
-                        : 'Date of Birth is not valid!'
+                value.length == ''
+                    ? 'Date of Birth is not valid!'
+                    : '';
+                    // dateofBirthRegex.test(value)
+                    //     ? ''
+                    //     : 'Date of Birth is not valid!'
                 break;
             case 'address':
                 errors.address =
@@ -95,6 +108,9 @@ function ApplicationForm(props) {
                         ? 'Fill in all fields'
                         : '';
                 break;
+            case 'file':
+                errors.file = '';
+                break;
             case 'cgpa':
                 errors.cgpa =
                     value.length == ''
@@ -106,48 +122,52 @@ function ApplicationForm(props) {
         setState({
           ...state, errors, [name]: value
         });
-      };
+    };
 
-      const { errors } = state;
+    const { errors } = state;
 
     const submitForm = (e) => {
         e.preventDefault();
+        console.log('submitted')
         if(validateForm(state.errors)) {
             const request = (({ errors, ...o }) => o)(state)
             const token = localStorage.getItem("token")
+            var formData = new FormData()
+
+            for (var key in request){
+                formData.append(key, request[key])
+            }
 
             const requestOptions = {
                 method: 'post',
                 headers: {
-                    'Content-Type': 'multipart/form-data',
                     'auth': token
                 },
-                body: request,
+                body: formData,
             };
-            console.log('apple')
 
             const url = 'http://localhost:5000/api/v1/auth/apply';
+            console.log('apple')
+            fetch(url, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        // Here you should have logic to handle invalid creation of a user.
+                        // This assumes your Rails API will return a JSON object with a key of
+                        // 'message' if there is an error with creating the user, i.e. invalid username
+                        console.log(data.message)
+                    } else {
+                        console.log(data.response)
+                        // console.log(data.data.token)
+                        // console.log(data.user)
+                        props.history.push({
+                            pathname: '/home'
+                        })
 
-            // fetch(url, requestOptions)
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         if (data.message) {
-            //             // Here you should have logic to handle invalid creation of a user.
-            //             // This assumes your Rails API will return a JSON object with a key of
-            //             // 'message' if there is an error with creating the user, i.e. invalid username
-            //             console.log(data.message)
-            //         } else {
-            //             console.log(data.response)
-            //             // console.log(data.data.token)
-            //             // console.log(data.user)
-            //             props.history.push({
-            //                 pathname: '/user/dashboard'
-            //             })
-            //
-            //         }
-            //     })
-            //     .catch(error => console.log(error));
-            console.log(state)
+                    }
+                })
+                .catch(error => console.log(error));
+            // console.log(state)
             // setState({
             //  ...state,
             //  file:"",
@@ -179,9 +199,11 @@ function ApplicationForm(props) {
             </div>
             <div className="application-form-body">
                 <div className="upload-document">
-                    <div>
-                        <input type="file" id="file"  name="file" value={state.file} onChange={onChangeHandler}/>
-                        <label for="file">Upload CV</label>
+                    <div className='upload-file'>
+                    <input type="file" id="file" name= "file"  onChange={fileChange}/>
+                    <div className="file-text-application"><label for="file" >Upload CV</label></div>
+                    <div className="plusicon-application"><img src = {plusicon} alt="plus-icon" /></div>
+                    <div>{state.file ? state.file.name: ""}</div>
                     </div>
                 </div>
                 <div className="application-form-input">
@@ -200,7 +222,7 @@ function ApplicationForm(props) {
                     {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
                 </div>
                 <div>
-                    <FormInput label="Date of Birth" type='text' name="date_of_birth" value={state.date_of_birth} change={handleChange} placeholder= "dd/mm/yyyy" color='application' labelColor="label-name" required="required"/>
+                    <FormInput label="Date of Birth" type='date' name="date_of_birth" value={state.date_of_birth} change={handleChange} placeholder= "dd/mm/yyyy" color='application' labelColor="label-name" required="required"/>
                     {errors.date_of_birth.length > 0 && <span className='error'>{errors.date_of_birth}</span>}
                 </div>
                 </div>

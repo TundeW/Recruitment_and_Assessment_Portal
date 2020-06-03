@@ -4,21 +4,54 @@
     margin-top: 50px;
     margin-bottom: 50px;
 }
+.Assess-History-section{
+    margin-top: 30px;
+}
 
+.Hist-table table{
+    border-collapse: collapse;
+    width: 946.48px;
+    /* left: 325px; */
+    top: 150px;
+    box-shadow: none;
+    position: absolute;
+    margin-left: 15px;
+}
+
+.hist-back{
+width: 980px;
+height: 308px;
+left: 334px;
+top: 184px;
+align-items: center;
+
+background: #FFFFFF;
+box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+border-radius: 8px;
+
+    /* box-shadow: none;
+    background: white;
+    width: 1490px; */
+}
+
+.compose-assessment-answers{
+    margin-top: 20px;
+    margin-left: 25%;
+}
 .assessment-history{
     margin-left: 20.5%;
 }
 
 .assessment-history-input{
     margin-left: 3.5%;
-} 
+}
 .assessment-instruction{
     width: 92%;
     height: 144px;
     border: 1.5px solid #2B3C4E;
     box-sizing: border-box;
     border-radius: 4px;
-    
+
 }
 .upload-assessment-file{
     border: 1.55172px dashed #2B3C4E;
@@ -29,4 +62,9 @@
     margin-bottom: 10px;
     margin-left: 3.5%;
     margin-top: 80px;
+    text-align: center;
+}
+
+.assess_row{
+    height: 70px;
 }

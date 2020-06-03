@@ -7,9 +7,6 @@ function topHistory(props) {
         <div>
             <p className='head'>{props.head} </p>
             <p id='time'>{props.time} </p>
-            <History batch='Academy Batch 1' students='15 students' date='started 11/09/15' />
-            <History batch='Academy Batch 1' students='15 students' date='started 11/09/15' />
-            <History batch='Academy Batch 1' students='15 students' date='started 11/09/15' />
         </div>
     )
 }

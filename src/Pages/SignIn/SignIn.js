@@ -10,12 +10,13 @@ import eyes from '../../Components/mainicons/eyeslogo.svg'
 
 function SignIn(props) {
     const [state, setState] = useState({
-        email: null,
-        password: null,
+        email: '',
+        password: '',
         errors: {
             email: '',
             password: '',
-        }
+        },
+        submitErrors: ''
     });
 
     const [passwordShown, setPasswordShown] = useState(false);
@@ -68,7 +69,7 @@ function SignIn(props) {
     const submitForm = (e) => {
         e.preventDefault()
         if(validateForm(state.errors)) {
-            const request = (({ errors, ...o }) => o)(state)
+            const request = (({ errors, submitErrors, ...o }) => o)(state)
             // console.log(request)
 
             const requestOptions = {
@@ -87,6 +88,9 @@ function SignIn(props) {
                         // Here you should have logic to handle invalid creation of a user.
                         // This assumes your Rails API will return a JSON object with a key of
                         // 'message' if there is an error with creating the user, i.e. invalid username
+                        setState({
+                            ...state, submitErrors: data.message
+                         })
                         console.log(data.message)
                     } else {
                         console.log(data.response)
@@ -95,7 +99,7 @@ function SignIn(props) {
                         localStorage.setItem("token", data.data.token)
                         if (data.user.application) {
                             props.history.push({
-                                pathname: '/user/dashboard'
+                                pathname: '/home'
                             })
                         }else{
                             props.history.push({
@@ -142,6 +146,7 @@ function SignIn(props) {
                     <div className="submit-button">
                         <span onClick={submitForm}><Button text="Sign In" color="Button" /></span>
                     </div>
+                    <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                     <div className="f-password">
                         <span>Don’t have an account yet? <a href="/"> Sign Up </a></span>
                         <span className="forget-two">Forgot Password?</span>

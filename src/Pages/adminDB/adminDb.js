@@ -13,7 +13,10 @@ import History from '../../Components/history/history'
 
 class AdminDb extends Component {
     state = {
-        applications: []
+        applications: [],
+        total: 0,
+        individual: {},
+        selectedacademy: 1
     }
 
     // console.log(application)
@@ -44,12 +47,23 @@ class AdminDb extends Component {
                     console.log(data.message)
                 } else {
                     console.log(data.response)
-                    console.log(data)
+                    console.log(data.data)
+                    let total = 0
+                    let individual = []
+                    data.data.map(a =>{
+                        total = total + a.applications_total
+                        let a_key = `b${a.batch_id}`
+                        individual[a_key] = a.applications_total
+                    })
+                    console.log(individual)
                     // console.log(data.data.token)
                     // console.log(data.data)
                     this.setState({
-                        applications: data.data
+                        applications: data.data,
+                        total,
+                        individual
                     })
+
                     // console.log(this.state)
                     // console.log(this.state['0'].length)
                     // console.log(apple)
@@ -109,31 +123,42 @@ class AdminDb extends Component {
     }
     current = this.curr()
 
+    removeAdmin = () =>{
+        localStorage.clear()
+        this.props.history.push({
+            pathname: '/admin/login'
+        })
+    }
+
+    selectAcademy = academy => {
+      this.setState({ selectedacademy: academy });
+    };
+
 
 
     render(){
-        console.log('app')
         const result = this.state.applications.filter(c => c.batch_id == 2)
         const obj = this.state.applications.filter(c => c.batch_id == 2)[0]
-        console.log(obj)
         return (
             <div className='mainpage'>
-                <div><SideBar /></div>
+                <div><SideBar selected='Dashboard' history={this.props.history}/></div>
                 <div className='dashboard' >
                     <p className='dashtext'>Dashboard</p>
                     <div className='dashboard-section'>
-                        <DashBoard app='Current Applications' num={this.current} icon={blue} text2='Academy 2.0' />
-                        <DashBoard app='Total Applications' num={this.total} icon={green} text2='All entries so far' />
+                        <DashBoard app='Current Applications' num={this.state.individual['b2']} icon={blue} text2='Academy 2.0' />
+                        <DashBoard app='Total Applications' num={this.state.total} icon={green} text2='All entries so far' />
                         <DashBoard app='Academys' num={this.state.applications.length} icon={orange} text2='So far' />
                     </div>
-                    <div>
-                        <IconLevel navicon={navicon} />
-                    </div>
+
                     <div className='history'>
                         <div className='history-section'>
+                            <div className='t-history'>
+                                <TopHistory head='History' time='Last Update 18:24, 22/02/19' />
+                            </div>
+                            <br />
                             {this.state.applications.map(a => {
                                 return(
-                                    <div key = {a.batch_id} className = 'history-list'>
+                                    <div key = {a.batch_id} className = {`history-list ${this.state.selectedacademy == a.batch_id ? "academySelected" : null}`} onClick={() => this.selectAcademy(a.batch_id)}>
                                         <span>Academy Batch {a.batch_id} </span>
                                         <span>{a.applications_total} Students</span>
                                         <span>Created at {this.changeDateformat(a.created_at)}</span>
@@ -142,7 +167,7 @@ class AdminDb extends Component {
                             })}
                         </div>
                         <div className='assessment-section'>
-                            <AssessHead text='Create Assessment' />
+                            <AssessHead text='Create Assessment' history={this.props.history} batch={this.state.selectedacademy} from='admin' content_one="Create test question for an incoming academy" content_two= "students"/>
                         </div>
                     </div>
                 </div>

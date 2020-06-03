@@ -8,7 +8,6 @@ const successMsg = (props) => {
         <div>
             <img src={props.icon} />
             <p className='success-msg'>{props.text}<br /> Best of luck</p>
-            <Button text='Take Assessment' color='user-dash' /> 
         </div>
     )
 }

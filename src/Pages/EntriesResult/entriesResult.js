@@ -4,31 +4,52 @@ import SideBar from '../../Components/sidebar/sideBar';
 import down from '../../Components/mainicons/down.svg';
 import up from '../../Components/mainicons/up.svg';
 import IconLevel from '../../Components/iconLevel/iconLevel';
-import navicon from '../../Components/mainicons/navicon.svg'
+import navicon from '../../Components/mainicons/navicon.svg';
 
-function EntriesResult() {
+const BatchPage = (props) => {
 
     const [sortby, setSortby] = useState('default')
-    const [sortAge, setSortAge] = useState('default')
-    const [sortScore, setSortScore] = useState('default')
+    const [batch, setBatch] = useState(1)
 
-    const [entries, setEntries] = useState(
-        [
-            { id: 1, first_name: 'Peter', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1991-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 5.0, application_id: 1, assessment_score: 25 },
-            { id: 2, first_name: 'Parker', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1993-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 5.0, application_id: 1, assessment_score: 25 },
-            { id: 3, first_name: 'Paul', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1993-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 4.40, application_id: 1, assessment_score: 25 },
-            { id: 4, first_name: 'Matt', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '2000-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 4.21, application_id: 2, assessment_score: 25 },
-            { id: 5, first_name: 'Mark', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1990-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 3.80, application_id: 2, assessment_score: 25 },
-            { id: 6, first_name: 'Mani', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1992-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 3.5, application_id: 2, assessment_score: 25 },
-            { id: 7, first_name: 'Ben', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1998-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 5.0, application_id: 3, assessment_score: 25 },
-            { id: 8, first_name: 'Bart', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1999-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 4.91, application_id: 3, assessment_score: 25 },
-            { id: 9, first_name: 'Bull', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1997-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 3.67, application_id: 3, assessment_score: 25 }
-        ]
-    )
+    const [entries, setEntries] = useState([])
+
+    useEffect(()=>{
+        const token = localStorage.getItem('token')
+        const requestOptions = {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth': token
+            }
+        }
+
+        const url = 'http://localhost:5000/api/v1/applicants/results';
+
+        fetch(url, requestOptions).then(response => response.json()).then(data=>{
+            if (data.message){
+                console.log(data.message)
+            }else{
+                console.log(data.response)
+                console.log(data.data)
+                const copy = [...data.data]
+                const copies = copy.map(c => ({...c, age: calculateAge(c.date_of_birth), birthdate: changeDateformat(c.date_of_birth)}))
+                console.log(copies)
+                setEntries([...copies])
+            }
+        })
+    },[])
+
+    const handleChange = (e) => {
+        let text = e.target.value;
+        let batchId = parseInt(text.slice(5));
+        setBatch(batchId);
+    }
+
+    const message='Comprises of all that applied for ' + batch.selectValue;
 
     useEffect(() => {
         const copy = [...entries]
-        const copies = copy.map(c => ({ ...c, age: calculateAge(c.date_of_birth), birthdate: changeDateformat(c.date_of_birth) }))
+        const copies = copy.map(c => ({...c, age: calculateAge(c.date_of_birth), birthdate: changeDateformat(c.date_of_birth)}))
         console.log(copies)
         setEntries([...copies])
     }, []);
@@ -41,22 +62,21 @@ function EntriesResult() {
         setSortby('CgpaSortDown')
     }
 
-    const ageSortUp = () => {
-        setSortAge('AgeSortUp')
-    }
-
-    const ageSortDown = () => {
-        setSortAge('AgeSortDown')
-    }
-
     const scoreSortUp = () => {
-        setSortScore('ScoreSortUp')
+        setSortby('ScoreSortUp')
     }
 
     const scoreSortDown = () => {
-        setSortScore('ScoreSortDown')
+        setSortby('ScoreSortDown')
     }
 
+    const ageSortUp = () => {
+        setSortby('AgeSortUp')
+    }
+
+    const ageSortDown = () => {
+        setSortby('AgeSortDown')
+    }
 
     const sortTypes = {
         CgpaSortUp: {
@@ -67,13 +87,6 @@ function EntriesResult() {
             class: 'cgpa-sort-down',
             fn: (a, b) => b.cgpa - a.cgpa
         },
-        default: {
-            class: 'sort',
-            fn: (a, b) => a
-        }
-    }
-
-    const sortType = {
         AgeSortUp: {
             class: 'age-sort-up',
             fn: (a, b) => a.age - b.age
@@ -82,13 +95,6 @@ function EntriesResult() {
             class: 'age-sort-down',
             fn: (a, b) => b.age - a.age
         },
-        default: {
-            class: 'sort',
-            fn: (a, b) => a
-        }
-    }
-
-    const sortKind = {
         ScoreSortUp: {
             class: 'score-sort-up',
             fn: (a, b) => a.assessment_score - b.assessment_score
@@ -103,6 +109,20 @@ function EntriesResult() {
         }
     }
 
+    // const sortType = {
+    //     AgeSortUp: {
+    //         class: 'age-sort-up',
+    //         fn: (a, b) => a.age - b.age
+    //     },
+    //     AgeSortDown: {
+    //         class: 'age-sort-down',
+    //         fn: (a, b) => b.age - a.age
+    //     },
+    //     default: {
+    //         class: 'sort',
+    //         fn: (a, b) => a
+    //     }
+    // }
 
     const calculateAge = (date_of_birth) => {
         const birthDate = new Date(date_of_birth);
@@ -112,46 +132,55 @@ function EntriesResult() {
         return thisYear - birthYear
     }
 
-    const changeDateformat = (date_of_birth) => {
+    const changeDateformat = (date_of_birth) =>{
         const birthDate = new Date(date_of_birth);
         const month = birthDate.getMonth() + 1
         return birthDate.getDate() + '/' + month + '/' + birthDate.getFullYear()
     }
 
+
+
+    const filterTable = (batch) =>{
+        return entries.filter(entr=> entr.application_id == {batch})
+    }
+    let applicants = filterTable(batch)
+
     return (
 
         <div>
-            <SideBar />
-            <div className='batch'>
-                <div className='batch-select'>
-                    <div className='entries'>
-                        <p id='entry-text'>Entries - </p>
-                        <select >
+            <SideBar selected='Result' history={props.history}/>
+            <div className='result'>
+                <div className='result-select'>
+                    <div className='result-entries'>
+                        <p id='result-entry-text'>Entries - </p>
+                        <select value={batch.selectValue} onChange={handleChange}>
                             <option> Batch 1 </option>
                             <option> Batch 2 </option>
                             <option> Batch 3 </option>
+                            <option> Batch 4 </option>
                         </select>
                     </div>
-                    <p id='entry-text2'>Comprises of all that applied for batch 2</p>
+                    <p id='result-entry-text2'>{`Comprises of all that applied for batch ${batch}`}</p>
                 </div>
                 <div className='ent-table'>
                     {entries.length !== 0 ?
-                        <table>
-                            <thead>
+                        <table className= 'entrytable'>
+                            <thead className='thead'>
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th id='ent-age'>DOB - Age <img src={up} id='ent-agebtn' onClick={ageSortUp} /> <img src={down} id='agebtn2' onClick={ageSortDown} /></th>
+                                    <th id='age'>DOB - Age <img src={up} id='agebtn' onClick={ageSortUp} /> <img src={down} id='agebtn2' onClick={ageSortDown} /></th>
                                     <th>Address</th>
                                     <th>University</th>
-                                    <th id='rnt-cgpa'>CGPA <img src={up} id='ent-cgpabtn' onClick={cgpaSortUp} /> <img src={down} id='cgpabtn2' onClick={cgpaSortDown} /> </th>
-                                    <th id='score'>Test Score <img src={up} id='scorebtn' onClick={scoreSortUp} /> <img src={down} id='scorebtn2' onClick={scoreSortDown} /> </th>
+                                    <th id='cgpa'>CGPA <img src={up} id='cgpabtn' onClick={cgpaSortUp} /> <img src={down} id='cgpabtn2' onClick={cgpaSortDown} /> </th>
+                                    <th id='score'>Test Scores <img src={up} id='scorebtn' onClick={scoreSortUp} /> <img src={down} id='scorebtn2' onClick={scoreSortDown} /> </th>
+
                                 </tr>
                             </thead>
-                            <tbody>
-                                {[...entries].sort((sortTypes[sortby].fn )).map((entry, id) => {
+                            <tbody className= 'tbody'>
+                                {[...entries].sort((sortTypes[sortby].fn)).filter(entr=> {return entr.application_id == batch}).map((entry, id) => {
                                     return (
-                                        <tr key={entry.id} >
+                                        <tr key={entry.id} className= 'tr'>
                                             <td>{entry.first_name + ' ' + entry.last_name}</td>
                                             <td>{entry.email}</td>
                                             <td>{entry.birthdate} - {entry.age} </td>
@@ -168,7 +197,9 @@ function EntriesResult() {
                 </div>
             </div>
         </div>
-    )
+
+
+    );
 }
 
-export default EntriesResult
+export default BatchPage;

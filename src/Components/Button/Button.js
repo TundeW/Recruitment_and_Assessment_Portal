@@ -16,6 +16,9 @@ function Button(props) {
         case "finish-button":
             classtyle = "Button finish-button"
             break;
+        case "success-button":
+            classtyle = "Button success-button"
+            break;
         default:
     }
     return (

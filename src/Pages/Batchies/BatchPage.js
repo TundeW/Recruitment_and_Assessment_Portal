@@ -9,20 +9,43 @@ import navicon from '../../Components/mainicons/navicon.svg';
 const BatchPage = (props) => {
 
     const [sortby, setSortby] = useState('default')
+    const [batch, setBatch] = useState(1)
 
-    const [entries, setEntries] = useState(
-        [
-            { id: 1, first_name: 'Peter', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1991-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 5.0, application_id: 1, assessment_score: 25 },
-            { id: 2, first_name: 'Parker', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1993-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 5.0, application_id: 1, assessment_score: 25 },
-            { id: 3, first_name: 'Paul', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1993-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 4.40, application_id: 1, assessment_score: 25 },
-            { id: 4, first_name: 'Matt', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '2000-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 4.21, application_id: 2, assessment_score: 25 },
-            { id: 5, first_name: 'Mark', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1990-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 3.80, application_id: 2, assessment_score: 25 },
-            { id: 6, first_name: 'Mani', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1992-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 3.5, application_id: 2, assessment_score: 25 },
-            { id: 7, first_name: 'Ben', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1998-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 5.0, application_id: 3, assessment_score: 25 },
-            { id: 8, first_name: 'Bart', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1999-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 4.91, application_id: 3, assessment_score: 25 },
-            { id: 9, first_name: 'Bull', last_name: 'Pan', email: 'joe@gmail.com', date_of_birth: '1997-05-26T15:14:14.000Z', address: 'Enyata location', university: 'University of Nigeria', cgpa: 3.67, application_id: 3, assessment_score: 25 }
-        ]
-    )
+    const [entries, setEntries] = useState([])
+
+    useEffect(()=>{
+        const token = localStorage.getItem('token')
+        const requestOptions = {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+                'auth': token
+            }
+        }
+
+        const url = 'http://localhost:5000/api/v1/applicants/all';
+
+        fetch(url, requestOptions).then(response => response.json()).then(data=>{
+            if (data.message){
+                console.log(data.message)
+            }else{
+                console.log(data.response)
+                console.log(data.data)
+                const copy = [...data.data]
+                const copies = copy.map(c => ({...c, age: calculateAge(c.date_of_birth), birthdate: changeDateformat(c.date_of_birth)}))
+                console.log(copies)
+                setEntries([...copies])
+            }
+        })
+    },[])
+
+    const handleChange = (e) => {
+        let text = e.target.value;
+        let batchId = parseInt(text.slice(5));
+        setBatch(batchId);
+    }
+
+    const message='Comprises of all that applied for ' + batch.selectValue;
 
     useEffect(() => {
         const copy = [...entries]
@@ -99,21 +122,29 @@ const BatchPage = (props) => {
         return birthDate.getDate() + '/' + month + '/' + birthDate.getFullYear()
     }
 
+
+
+    // const filterTable = (batch) =>{
+    //     return entries.filter(entr=> entr.application_id == {batch})
+    // }
+    // let applicants = filterTable(batch)
+
     return (
 
         <div>
-            <SideBar />
+            <SideBar selected='Application Entries' history={props.history}/>
             <div className='batch'>
                 <div className='batch-select'>
                     <div className='entries'>
                         <p id='entry-text'>Entries - </p>
-                        <select >
+                        <select value={batch.selectValue} onChange={handleChange}>
                             <option> Batch 1 </option>
                             <option> Batch 2 </option>
                             <option> Batch 3 </option>
+                            <option> Batch 4 </option>
                         </select>
                     </div>
-                    <p id='entry-text2'>Comprises of all that applied for batch 2</p>
+                    <p id='entry-text2'>{`Comprises of all that applied for batch ${batch}`}</p>
                 </div>
                 <div className='table'>
                     {entries.length !== 0 ?
@@ -129,9 +160,9 @@ const BatchPage = (props) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {[...entries].sort((sortTypes[sortby].fn)).map((entry, id) => {
+                                {[...entries].sort((sortTypes[sortby].fn)).filter(entr=> {return entr.application_id == batch}).map((entry, id) => {
                                     return (
-                                        <tr key={entry.id} >
+                                        <tr key={entry.id} className='entry_row'>
                                             <td>{entry.first_name + ' ' + entry.last_name}</td>
                                             <td>{entry.email}</td>
                                             <td>{entry.birthdate} - {entry.age} </td>

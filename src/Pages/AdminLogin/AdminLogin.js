@@ -16,15 +16,14 @@ function AdminLogin(props) {
         errors: {
             email: '',
             password: '',
-        }
+        },
+        submitErrors: ''
     });
 
 
 
     const [passwordShown, setPasswordShown] = useState(false);
 
-    console.log(passwordShown)
-    console.log(setPasswordShown)
 
     const togglePasswordVisibility = () => {
         setPasswordShown(passwordShown ? false: true);
@@ -70,7 +69,7 @@ function AdminLogin(props) {
     const submitForm = (e) => {
         e.preventDefault();
         if(validateForm(state.errors)){
-            const request = (({ errors, ...o }) => o)(state)
+            const request = (({ errors, submitErrors, ...o }) => o)(state)
 
             const requestOptions = {
                 method: 'post',
@@ -87,6 +86,9 @@ function AdminLogin(props) {
                         // Here you should have logic to handle invalid creation of a user.
                         // This assumes your Rails API will return a JSON object with a key of
                         // 'message' if there is an error with creating the user, i.e. invalid username
+                        setState({
+                        ...state, submitErrors: data.message
+                        })
                         console.log(data.message)
                     } else {
                         console.log(data.response)
@@ -134,6 +136,7 @@ function AdminLogin(props) {
                     <div className="admin-login-button">
                     <span onClick={submitForm}><Button text="Sign In" color="admin-log"/></span>
                     </div>
+                    {state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}
                     <p className= "forget-admin-password">Forgot Password?</p>
                     </div>
                 </div>

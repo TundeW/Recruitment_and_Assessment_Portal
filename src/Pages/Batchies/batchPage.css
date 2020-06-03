@@ -1,4 +1,4 @@
-/* .batch{
+.batch{
     position: absolute;
     float: right;
     width: 1200px;
@@ -21,12 +21,14 @@
     font-size: 43.5555px;
     justify-content: left;
     line-height: 52px;
+    margin-bottom: 20px;
 }
 
 .entries{
     display: inline-flex;
     width: auto;
    width: 450px;
+   margin-top: 100px;
 }
 
 .entries select{
@@ -52,10 +54,11 @@
     font-size: 23.5555px;
 }
 
-tbody tr:hover {
+tr:hover {
     box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
     border-left: 4px solid #31D283 ;
     border-radius: 8px;
+    margin-bottom: 10px;
 }
 
 #entry-text{
@@ -63,15 +66,15 @@ tbody tr:hover {
     font-style: normal;
     font-weight: 300;
     font-size: 43.5555px;
-    margin-top: 0px;  
+    margin-top: 0px;
 }
 
 table {
     border-collapse: collapse;
     width: 1000px;
     position: absolute;
-    left: 334px;
     top: 230px;
+    box-shadow: None;
 }
 
 tbody tr{
@@ -83,16 +86,22 @@ thead tr{
     color: #fff;
 }
 
-table tbody tr td{
+ /* table tbody tr td{
     height: 40px;
+} */
+
+.entry_row{
+    /* padding-top: 50px;
+    padding-bottom: 25px; */
+    height: 70px;
 }
 
-tbody tr td {
+tr td {
     text-align: center;
     color: #2B3C4E;
-}
+ }
 #entry-text2{
-    margin-top: -50px;
+    margin-top: 0px;
 }
 
 #cgpa{
@@ -108,7 +117,7 @@ tbody tr td {
     margin-left: 8px;
     background-color: #2B3C4E;
     justify-content: center;
-} 
+}
 
 #agebtn {
     display: block;
@@ -142,6 +151,6 @@ tbody tr td {
     margin-left: -8px;
 }
 
-/* .nav-level{
+.nav-level{
     margin-top: -400px;
-} */
+}

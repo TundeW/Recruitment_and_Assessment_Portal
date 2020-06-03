@@ -3,7 +3,7 @@
 
 .mainpage{
     position: absolute;
-    width:1200px;
+    width:1400px;
     height: 1024px;
     background-size: 100vh;
 }
@@ -11,7 +11,7 @@
 .dashboard{
     position: absolute;
     float: right;
-    width: 1000px;
+    width: 1200px;
     height: 1024px;
     top: 0px;
     left: 222px;
@@ -27,10 +27,11 @@
 }
 
 .history{
-    margin-top: 50px;
+    width: 1200px;
+    margin-top: 90px;
     position: absolute;
     display: grid;
-    grid-template-columns: 0.1fr 0.1fr;
+    grid-template-columns: 1fr 0fr;
 }
 
 .dashtext{
@@ -43,12 +44,36 @@
 }
 
 .assessment-section{
-    text-align: left;
-    width: 482px;
+    text-align: center;
+    width: 582px;
     height: 307px;
     margin-left: 20px;
 }
 
 .history-list {
-    display: flex;
+    display: grid;
+    grid-template-columns: .4fr .3fr .5fr;
+    float: left;
+    width: 482px;
+    /* margin-top: 40px; */
+    font-size: 16px;
+    line-height: 22px;
+    text-align: center;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.academySelected{
+    position: inherit;
+    border-radius: 8px;
+    border-left: 4px solid #5ABEFD;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background: #FFFFFF;
+    box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+    text-align: center;
+}
+
+.history-list:hover{
+    cursor: pointer;
 }

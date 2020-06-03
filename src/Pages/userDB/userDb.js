@@ -15,7 +15,7 @@ import UpdateSection from '../../Components/UpdateSection/UpdateSection'
 import UserSideBar from '../../Components/usersidebar/usersidebar'
 
 
-const UserDb = () => {
+const UserDb = (props) => {
     const [state, setState] = useState({})
 
     useEffect(()=>{
@@ -52,12 +52,19 @@ const UserDb = () => {
         return day.slice(-2) + ':' + month.slice(-2) + ':' + year.slice(2)
     }
 
-    
+    const removeUser = () =>{
+        localStorage.clear()
+        props.history.push({
+            pathname: '/signin'
+        })
+    }
+
+
 
     const status = state.status
     return (
         <div className='user-board'>
-            <div><UserSideBar /></div>
+            <div><UserSideBar selected='Dashboard' history={props.history}/></div>
             <div className='user-dashboard' >
                 <p className='user-text'>Dashboard</p>
                 <p className='user-text2'>Your Application is currently being review, you wil be notified if successful</p>
@@ -65,15 +72,13 @@ const UserDb = () => {
                     <DashBoard app='Date of Applications' num={changeDateformat(state.created_at)} icon={blue} text2='4 days since apllied' />
                     <DashBoard app='Application Status' num={status} icon={orange} text2='We will get back to you' />
                 </div>
-                <div>
-                    <IconLevel navicon={navicon} />
-                </div>
+
                 <div className='user-assessment'>
                     <div className='update-section'>
                         <UpdateSection text='Updates' />
                     </div>
                     <div className='assesshead-section'>
-                        <AssessHead text='Take Assessment' content_one="We have 4 days left until the next assessment" content_two= "Watch this space"/>
+                        <AssessHead text='Take Assessment' content_one="We have 4 days left until the next assessment" content_two= "Watch this space" history={props.history} from='applicant'/>
                         {/* <AssessTest text='We have 4 days left until the next assessment Watch this space' />
                         <Button text='Take Assessment' /> */}
                     </div>

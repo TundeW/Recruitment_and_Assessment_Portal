@@ -7,7 +7,7 @@
     height: 144px;
     border: 1.5px solid #2B3C4E;
     box-sizing: border-box;
-    border-radius: 4px;  
+    border-radius: 4px;
 }
 .admin-questions{
     font-family: "Lato";
@@ -42,11 +42,11 @@ h2{
    margin-left: -50px;
    margin-top: 49px;
 }
-.finish{
+.finish-btn{
     text-align: center;
-    margin-right: 7%;
     margin-top: 50px;
     margin-bottom: 80px;
+    margin-left: -4%;
 }
 .question-number{
     margin-bottom: 20px;
@@ -56,4 +56,84 @@ h2{
     font-size: 16px;
     line-height: 19px;
     color: #2B3C4E;
+}
+
+input[type=file]{
+    width: 0;
+    height: 0;
+    z-index: -1;
+    overflow: hidden;
+    opacity: 0;
+}
+.file-text{
+   margin-top: 3%;
+}
+.plusicon{
+    margin-right: 125px;
+    margin-top: -4.6%;
+}
+.previous{
+    width: 125px;
+    height: 41px;
+    background: #2B3C4E;
+    border-radius: 4px;
+    color: white;
+    outline: none;
+    border: none;
+    margin-bottom: 12px;
+}
+.next-question{
+    width: 125px;
+    height: 41px;
+    background: #2B3C4E;
+    border-radius: 4px;
+    color: white;
+    outline: none;
+    border: none;
+    margin-bottom: 12px;
+}
+
+.span_timer{
+    display: flex;
+}
+
+.file_timer{
+    /* display: flex; */
+}
+
+.span-timer{
+    display: flex;
+}
+
+ #min{
+    margin-top: 40px;
+    margin-left: -55px
+}
+
+#sec{
+    margin-top: 40px;
+    margin-left: -30px
+}
+
+#select-timer{
+    border: none;
+    outline: none;
+    width: 105px;
+    font-family: Lato;
+    font-style: normal;
+    font-weight: 300;
+    font-size: 48px;
+    line-height: 58px;
+    /* / text-align: right; / */
+}
+
+#sortbtn {
+    width: 15px;
+    height: 30px;
+    margin-left: 8px;
+    margin-top: 20px;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    display: absolute;
 }

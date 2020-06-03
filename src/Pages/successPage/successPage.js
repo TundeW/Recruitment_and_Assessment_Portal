@@ -8,11 +8,19 @@ import conffeti from '../../Components/mainicons/confetti.svg';
 import Timer from '../../Components/timer/timer';
 import TakeAssment from '../../Components/takeAssmnt/takeAssment';
 import SuccessMsg from '../../Components/successMsg/successMsg';
+import Button from '../../Components/Button/Button'
+import UserSideBar from '../../Components/usersidebar/usersidebar'
 
-const successPage = () => {
+
+const successPage = (props) => {
+    const goToHome=()=>{
+        props.history.push({
+            pathname: '/home'
+        })
+    }
     return (
         <div className='success'>
-            <div className='side'><SideBar /></div>
+            <div className='side'><UserSideBar selected='Assessment' history={props.history}/></div>
             <div className='assess-success'>
                 <div className='take-assmnt'>
                     <div>
@@ -24,16 +32,12 @@ const successPage = () => {
                         <Timer text='Timer' text2='min' text3='sec' num='23' num2='043' />
                     </div>
                 </div>
-                <div className='nav-bar'>
-                    <IconLevel navicon={navicon} />
-                </div>
+
                 <div className='successful'>
-                    <SuccessMsg icon={conffeti} 
-                     text='We have received your assessment test, we will get back to you soon. Best of luck'
+                    <SuccessMsg icon={conffeti}
+                     text='We have received your assessment test, we will get back to you soon. Best of luck' color=""
                      />
-                    {/* <img src={conffeti} />
-                    <p classNamec='success-msg'>We have received your assessment test, we will get back to you soon.<br /> Best of luck</p>
-                    <Button text='Home' /> */}
+                    <span onClick={goToHome}><Button text= "Home" color="success-button" /></span>
                 </div>
             </div>
         </div>

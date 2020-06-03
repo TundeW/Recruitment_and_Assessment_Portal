@@ -25,6 +25,11 @@ p{
 }
 
 
+.log-out:hover{
+    border-left: 5px solid #31D283;
+    text-shadow:0.5px 0 0 black;
+}
+
 .topbar-input{
     color: white;
 }

@@ -1,0 +1,33 @@
+.Ass-page {
+    position: absolute;
+    width:1200px;
+    background-size: 100vh;
+}
+
+.take-assessment{
+    position: absolute;
+    float: right;
+    width: 1000px;
+    height: 800px;
+    top: 0px;
+    left: 222px;
+    padding-left: 70px;
+}
+
+.assessment-time{
+    display: flex;
+    justify-content: space-between;
+    width: 950px;
+}
+
+.nav-level{
+    margin-top: 200px;
+}
+
+.ass-mesg{
+    text-align: center;
+}
+.success-msg{
+    margin-top: 21px;
+    margin-bottom: 20px;
+}
