@@ -71,8 +71,9 @@ const queries = {
         questions_total,
         timelimit,
         created_at,
-        updated_at
-    ) VALUES($1, $2, $3, $4, %5) RETURNING *`,
+        updated_at,
+        status
+    ) VALUES($1, $2, $3, $4, $5, $6) RETURNING *`,
 
     addNewQuestion: `
     INSERT INTO questions(
@@ -81,7 +82,7 @@ const queries = {
         options,
         answer,
         image
-    ) VALUES($1, $2, $3, $4, %5) RETURNING *`,
+    ) VALUES($1, $2, $3, $4, $5) RETURNING *`,
 
     findUserById: `
       SELECT first_name, last_name, email, file FROM users WHERE id=($1)
@@ -99,6 +100,10 @@ const queries = {
       SELECT * FROM applicants
     `,
 
+    findAllAssessments: `
+      SELECT * FROM assessments
+    `,
+
     findAllApplicantsWithScore: `
       SELECT * FROM applicants WHERE assessment_score IS NOT NULL
     `,
@@ -111,6 +116,32 @@ const queries = {
     updateApplicationByBatchId: `
     UPDATE applications SET applications_total=($2) WHERE batch_id=($1)
   `,
+
+  findAssessmentByApplicationById: `
+    SELECT * FROM assessments WHERE application_id=($1)
+  `,
+
+  findApplicationIdByUserId: `
+    SELECT application_id FROM applicants WHERE user_id=($1)
+  `,
+
+  findAssessmentIdByApplicationId: `
+    SELECT id, timelimit FROM assessments WHERE application_id=($1)
+  `,
+
+  findQuestionsByAssessmentId: `
+    SELECT * FROM questions WHERE assessment_id=($1)
+  `,
+
+  updateApplicantScoreByUserId: `
+  UPDATE applicants SET assessment_id=($1), assessment_score=($2), assessment_status=($3) WHERE user_id=($4)
+  `,
+
+  updateAssessmentStatusById: `
+  UPDATE assessments SET status=($1) WHERE id=($2)
+  `,
+
+
 
 };
 

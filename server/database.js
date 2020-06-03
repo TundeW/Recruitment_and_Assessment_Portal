@@ -3,15 +3,15 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 //
-const connectionString = process.env.DATABASE_URL;
+// const connectionString = process.env.DATABASE_URL;
 
 const pool = new Pool({
-    connectionString: connectionString
-    // user: 'postgres',
-    // host: 'localhost',
-    // database: 'recruitmentportal',
-    // password: 'Babatunde',
-    // port: 5432,
+    // connectionString: connectionString
+    user: 'postgres',
+    host: 'localhost',
+    database: 'recruitmentportal',
+    password: 'Babatunde',
+    port: 5432,
 })
 
 

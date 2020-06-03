@@ -142,9 +142,9 @@ async function createNewApplicant( body, cv, user_id) {
         address,
         university,
         course,
-        cgpa
+        cgpa,
+        application_id
     } = body;
-    const application_id = 2;
     const status = 'Pending';
     const assessment_status = false;
     const d = new Date();
@@ -190,7 +190,7 @@ async function checkIfApplicationExists(id){
     };
 
     try{
-        const { rowCount } = await db.query(queryObj);
+        const { rowCount, rows } = await db.query(queryObj);
         if (rowCount == 0) {
 
             return Promise.reject({
@@ -200,7 +200,18 @@ async function checkIfApplicationExists(id){
             });
         }
         if (rowCount > 0) {
-            return Promise.resolve();
+            const now = new Date()
+            const deadline = new Date(rows[0].deadline)
+            if (now > deadline){
+                return Promise.reject({
+                    status: "error",
+                    code: 409,
+                    message: "Application has closed",
+                });
+            }else{
+                return Promise.resolve();
+            }
+
         }
     } catch(e) {
         console.log(e);
@@ -327,24 +338,84 @@ async function createNewApplication( body, file, admin_id) {
 }
 
 
+async function checkIfApplicationExistsForAssessment(id){
+    const queryObj = {
+        text: queries.findApplicationById,
+        values: [id],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 409,
+                message: "Application Does not Exist",
+            });
+        }
+        if (rowCount > 0) {
+                return Promise.resolve();
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error finding application",
+        });
+    }
+}
+
+
+async function checkIfApplicationHasAssessment(id){
+    const queryObj = {
+        text: queries.findAssessmentByApplicationById,
+        values: [id],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+            return Promise.resolve();
+        }
+        if (rowCount > 0) {
+                return Promise.reject({
+                    status: "error",
+                    code: 409,
+                    message: "Application already has an Assessment",
+                });
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error checking applications",
+        });
+    }
+}
+
 async function createNewAssessment( body) {
 
     const {
         application_id,
-        question_total,
+        questions_total,
         timelimit
     } = body;
+    const status = 'Not Done'
     const d = new Date();
     const created_at = moment(d).format("YYYY-MM-DD HH:mm:ss");
 
     const queryObj = {
-        text: queries.addNewApplicant,
-        values: [application_id, questions_total,timelimit, created_at, created_at],
+        text: queries.addNewAssessment,
+        values: [application_id, questions_total,timelimit, created_at, created_at, status],
     };
 
     try{
-        const { rowCount } = await db.query(queryObj);
-
+        console.log('apple')
+        const { rowCount, rows } = await db.query(queryObj);
+        console.log('cow')
         if (rowCount == 0) {
             return Promise.reject({
                 status: "error",
@@ -358,6 +429,7 @@ async function createNewAssessment( body) {
                 status: "success",
                 code: 201,
                 response: "Assessment created Successfully.",
+                data: rows[0].id
             });
         }
     } catch (e) {
@@ -371,22 +443,30 @@ async function createNewAssessment( body) {
 }
 
 async function createNewQuestion( body, image) {
-    const imagename = image.name;
-    cv.mv('uploads/'+imagename, (err) => {
-        if (err) {
-            console.log('Could Not Upload file');
-        }
-        else{
-            console.log(imagename)
-        }
-    })
+    let imagename = null
+    if(image){
+        imagename = image.name;
+        image.mv('uploads/'+imagename, (err) => {
+            if (err) {
+                console.log('Could Not Upload file');
+            }
+            else{
+                console.log(imagename)
+            }
+        })
+    }
+
 
     const {
         assessment_id,
         question,
-        options,
+        option_a,
+        option_b,
+        option_c,
+        option_d,
         answer
     } = body;
+    const options = [option_a, option_b, option_c, option_d]
     const queryObj = {
         text: queries.addNewQuestion,
         values: [assessment_id, question, options, answer, imagename],
@@ -560,6 +640,27 @@ async function getAllApplicants() {
     }
 }
 
+async function getAllAssessments() {
+    const queryObj = {
+        text: queries.findAllAssessments,
+    };
+    try {
+        const { rows } = await db.query(queryObj);
+        return Promise.resolve({
+            status: "success",
+            code: 200,
+            response: "Successfully fetched all assessments",
+            data: rows,
+        });
+    } catch (e) {
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error fetching assessments",
+        });
+    }
+}
+
 
 async function getAllApplicantsWithScore() {
     const queryObj = {
@@ -646,6 +747,179 @@ async function getCurrentTotalApplications(id){
     }
 }
 
+async function getApplicationIdFromApplicants(id){
+    const queryObj = {
+        text: queries.findApplicationIdByUserId,
+        values: [id],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Error finding application Id",
+            });
+        }
+        if (rowCount > 0) {
+            return Promise.resolve({
+                status: "success",
+                code: 200,
+                message: "Application total error",
+                appId: rows[0].application_id
+            });
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error fetching application Id",
+        });
+    }
+}
+
+
+async function getAssessmentIdFromApplications(id){
+    const queryObj = {
+        text: queries.findAssessmentIdByApplicationId,
+        values: [id],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Error finding Assessment Id",
+            });
+        }
+        if (rowCount > 0) {
+            return Promise.resolve({
+                status: "success",
+                code: 200,
+                response: "Successfully fetched Assessment Id",
+                data: rows[0]
+            });
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error fetching Assessment Id",
+        });
+    }
+}
+
+
+
+async function getQuestionsByAssessmentId(id){
+    const queryObj = {
+        text: queries.findQuestionsByAssessmentId,
+        values: [id],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Error finding Questions",
+            });
+        }
+        if (rowCount > 0) {
+            return Promise.resolve({
+                status: "success",
+                code: 200,
+                response: "Successfully fetched Questions",
+                data: rows
+            });
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error fetching Questions",
+        });
+    }
+}
+
+async function updateAssessmentScoreByUserId(body, user_id){
+    const {
+        assessment_id,
+        assessment_score
+    } = body;
+    const assessment_status = true;
+    const queryObj = {
+        text: queries.updateApplicantScoreByUserId,
+        values: [assessment_id, assessment_score, assessment_status, user_id],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Error updating Assessment Score",
+            });
+        }
+        if (rowCount > 0) {
+            return Promise.resolve({});
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error Updating Assessment Results",
+        });
+    }
+}
+
+async function updateAssessmentStatusById(assessment_id){
+    const status = 'Taken'
+    const queryObj = {
+        text: queries.updateAssessmentStatusById,
+        values: [status, assessment_id],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Error updating Assessment",
+            });
+        }
+        if (rowCount > 0) {
+            return Promise.resolve({
+                status: "success",
+                code: 200,
+                response: "Assessment Updated Successfully",
+            });
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error Updating Assessment",
+        });
+    }
+}
+
 
 module.exports = {
     createNewUser,
@@ -677,4 +951,12 @@ module.exports = {
     checkIfUserHasApplied,
     updateTotalApplications,
     getCurrentTotalApplications,
+    checkIfApplicationHasAssessment,
+    checkIfApplicationExistsForAssessment,
+    getApplicationIdFromApplicants,
+    getAssessmentIdFromApplications,
+    getQuestionsByAssessmentId,
+    updateAssessmentStatusById,
+    updateAssessmentScoreByUserId,
+    getAllAssessments,
 };

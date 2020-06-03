@@ -34,6 +34,14 @@ const {
     checkIfUserHasApplied,
     updateTotalApplications,
     getCurrentTotalApplications,
+    checkIfApplicationExistsForAssessment,
+    checkIfApplicationHasAssessment,
+    getApplicationIdFromApplicants,
+    getAssessmentIdFromApplications,
+    getQuestionsByAssessmentId,
+    updateAssessmentScoreByUserId,
+    updateAssessmentStatusById,
+    getAllAssessments,
 } = require("./portalService");
 
 
@@ -58,7 +66,7 @@ router.post(
     },
     async (req, res) => {
         const { email } = req.body;
-        const role = "admin";
+        const role = "applicant";
         try{
             await checkIfUserDoesNotExistBefore(email);
             const result = await createNewUser(role, req.body);
@@ -204,14 +212,17 @@ router.post(
     async (req, res) => {
 
         try{
-            // const { application_id } = req.body;
+            const { application_id } = req.body;
+            console.log(req.body)
+            console.log('not yet')
             const cv = req.files.file;
+            console.log('files')
             const user_id = req.user._id;
-            await checkIfApplicationExists(2);
-            await checkIfUserHasApplication(2, user_id);
+            await checkIfApplicationExists(application_id);
+            await checkIfUserHasApplication(application_id, user_id);
             const result = await createNewApplicant(req.body, cv, user_id);
-            const current = await getCurrentTotalApplications(2);
-            await updateTotalApplications(2, current.total);
+            const current = await getCurrentTotalApplications(application_id);
+            await updateTotalApplications(application_id, current.total);
             return res.status(201).json(result);
 
         } catch (e) {
@@ -246,8 +257,84 @@ router.post(
         const admin_id = req.user._id;
         try{
             const file = req.files.file;
-            console.log('banana');
             const result = await createNewApplication(req.body, file, admin_id);
+            return res.status(201).json(result);
+
+        } catch (e) {
+            console.log(e)
+            return res.status(e.code).json(e);
+        }
+    }
+)
+
+router.post(
+    "/auth/admin/assessment/create",
+    async (req, res, next) =>{
+        // const { error } = loginValidation(req.body);
+        // if(error) {
+        //     return res.status(400).json({
+        //         message: error.details[0].message.replace(/[\"]/gi, "")
+        //     })
+        // }
+        const { auth } = req.headers;
+        const token = auth;
+
+        try {
+            await authenticationnByToken(token, req);
+            await authorisationById(req.user.role, "admin")
+
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+        next();
+    },
+    async (req, res) => {
+        const admin_id = req.user._id;
+        const { application_id } = req.body
+        try{
+            await checkIfApplicationExistsForAssessment(application_id);
+            await checkIfApplicationHasAssessment(application_id);
+            const result = await createNewAssessment(req.body);
+            return res.status(201).json(result);
+
+        } catch (e) {
+            console.log(e)
+            return res.status(e.code).json(e);
+        }
+    }
+)
+
+
+router.post(
+    "/auth/admin/question/create",
+    async (req, res, next) =>{
+        // const { error } = loginValidation(req.body);
+        // if(error) {
+        //     return res.status(400).json({
+        //         message: error.details[0].message.replace(/[\"]/gi, "")
+        //     })
+        // }
+        const { auth } = req.headers;
+        const token = auth;
+
+        try {
+            await authenticationnByToken(token, req);
+            await authorisationById(req.user.role, "admin")
+
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+        next();
+    },
+    async (req, res) => {
+        const admin_id = req.user._id;
+        try{
+            let image
+            if(req.files){
+                image = req.files.file;
+            }
+
+            const result = await createNewQuestion(req.body, image);
             return res.status(201).json(result);
 
         } catch (e) {
@@ -363,6 +450,33 @@ router.get(
 
 
 router.get(
+    "/assessments/all",
+    async (req, res, next) =>{
+        const { auth } = req.headers;
+        const token = auth;
+        try{
+            await authenticationnByToken(token, req);
+            await authorisationById(req.user.role, "admin")
+
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+        next();
+    },
+    async (req, res) => {
+        try {
+            const result = await getAllAssessments();
+            return res.status(200).json(result);
+        } catch (e) {
+            console.log(e);
+            return res.status(e.code).json(e);
+        }
+
+    }
+)
+
+
+router.get(
     "/applicants/results",
     async (req, res, next) =>{
         const { auth } = req.headers;
@@ -387,6 +501,98 @@ router.get(
 
     }
 )
+
+router.get(
+    "/assessments",
+    async (req, res, next) =>{
+        const { auth } = req.headers;
+        const token = auth;
+        try{
+            await authenticationnByToken(token, req);
+            await authorisationById(req.user.role, "applicant");
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+        next();
+    },
+    async (req, res) => {
+        try {
+            const applicantsRes = await getApplicationIdFromApplicants(req.user._id);
+            const application_id = applicantsRes.appId;
+            const assessmentRes = await getAssessmentIdFromApplications(application_id);
+            const assessment_id = assessmentRes.data.id;
+            const result = await getQuestionsByAssessmentId(assessment_id)
+            return res.status(200).json({...result, assessment: assessmentRes.data});
+        } catch (e) {
+            console.log(e);
+            return res.status(e.code).json(e);
+        }
+
+    }
+)
+
+router.put(
+    "/assessment/score",
+    async (req, res, next) =>{
+        const { auth } = req.headers;
+        const token = auth;
+        try{
+            await authenticationnByToken(token, req);
+            await authorisationById(req.user.role, "applicant");
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+        next();
+    },
+    async (req, res) => {
+        try {
+            const { assessment_id } = req.body
+            await updateAssessmentScoreByUserId(req.body, req.user._id);
+            const result = await updateAssessmentStatusById(assessment_id);
+            return res.status(200).json(result);
+        } catch (e) {
+            console.log(e);
+            return res.status(e.code).json(e);
+        }
+
+    }
+)
+
+// router.post(
+//     "/auth/admin/assessment/create",
+//     async (req, res, next) =>{
+//         // const { error } = loginValidation(req.body);
+//         // if(error) {
+//         //     return res.status(400).json({
+//         //         message: error.details[0].message.replace(/[\"]/gi, "")
+//         //     })
+//         // }
+//         const { auth } = req.headers;
+//         const token = auth;
+//
+//         try {
+//             await authenticationnByToken(token, req);
+//             await authorisationById(req.user.role, "admin")
+//
+//         } catch(e) {
+//             return res.status(e.code).json(e);
+//         }
+//         next();
+//     },
+//     async (req, res) => {
+//         const admin_id = req.user._id;
+//         try{
+//             const file = req.files.file;
+//             console.log('banana');
+//             const result = await createNewApplication(req.body, file, admin_id);
+//             return res.status(201).json(result);
+//
+//         } catch (e) {
+//             console.log(e)
+//             return res.status(e.code).json(e);
+//         }
+//     }
+// )
 
 
 module.exports = router;
