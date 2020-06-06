@@ -12,7 +12,9 @@ let port = 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(fileupload())
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/upload_profile', express.static(path.join(__dirname, 'upload_profile')));
+
 app.use(cors())
 
 app.listen(port, () =>{

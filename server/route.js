@@ -12,8 +12,10 @@ const {
     createNewApplicant,
     createNewAssessment,
     createNewQuestion,
+    getLatestApplicationDate,
     // createNewParcel,
     authorisationById,
+    checkUserDetailsMatch,
     // authenticationById,
     // changeDestination,
     // parcelauthorisation,
@@ -42,6 +44,8 @@ const {
     updateAssessmentScoreByUserId,
     updateAssessmentStatusById,
     getAllAssessments,
+    getLatestApplicationId,
+    uploadUserPic,
 } = require("./portalService");
 
 
@@ -127,6 +131,10 @@ router.post(
     async (req, res) => {
         try{
             const result = await checkIfEmailAndPasswordMatch(req.body);
+            const app = await getLatestApplicationDate()
+            console.log(app.latest)
+            const latest_app = await getLatestApplicationId(app.latest)
+            const latest_id = latest_app.data
             if(result.data.user.role !== 'applicant'){
                 return res.status(401).json({
                     message: "Not authorized to access this platform"
@@ -140,7 +148,7 @@ router.post(
 
             const userdet = (({ role, ...o }) => o)(result.data.user)
 
-            res.header('auth', token).json({...result, data: {token}, user: {...userdet, application: hasapplied.response} });
+            res.header('auth', token).json({...result, data: {token, latest_id}, user: {...userdet, application: hasapplied.response}  });
 
             // return res.status(200).json(result);
         } catch (e) {
@@ -213,13 +221,15 @@ router.post(
 
         try{
             const { application_id } = req.body;
-            console.log(req.body)
-            console.log('not yet')
-            const cv = req.files.file;
+            if(!req.files){
+                return res.status(400).json({message: 'Please Upload your CV'})
+            }
             console.log('files')
             const user_id = req.user._id;
+            const cv = req.files.file;
             await checkIfApplicationExists(application_id);
             await checkIfUserHasApplication(application_id, user_id);
+            await checkUserDetailsMatch(req.body, user_id)
             const result = await createNewApplicant(req.body, cv, user_id);
             const current = await getCurrentTotalApplications(application_id);
             await updateTotalApplications(application_id, current.total);
@@ -555,6 +565,98 @@ router.put(
             return res.status(e.code).json(e);
         }
 
+    }
+)
+
+// router.get(
+//     "admin/assessments",
+//     async (req, res, next) =>{
+//         const { auth } = req.headers;
+//         const token = auth;
+//         try{
+//             await authenticationnByToken(token, req);
+//             await authorisationById(req.user.role, "admin");
+//         } catch(e) {
+//             return res.status(e.code).json(e);
+//         }
+//         next();
+//     },
+//     async (req, res) => {
+//         try {
+//             const { assessment_id } = req.body
+//             const result = await getQuestionsByAssessmentId(assessment_id)
+//             return res.status(200).json({...result, assessment: assessmentRes.data});
+//         } catch (e) {
+//             console.log(e);
+//             return res.status(e.code).json(e);
+//         }
+//
+//     }
+// )
+
+router.get(
+    "/admin/assessment",
+    async (req, res, next) =>{
+        const { auth } = req.headers;
+        const token = auth;
+        try{
+            await authenticationnByToken(token, req);
+            await authorisationById(req.user.role, "admin");
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+        next();
+    },
+    async (req, res) => {
+        try {
+            const { assessment_id } = req.headers
+            const result = await getQuestionsByAssessmentId(assessment_id)
+            return res.status(200).json({...result});
+        } catch (e) {
+            console.log(e);
+            return res.status(e.code).json(e);
+        }
+
+    }
+)
+
+router.put(
+    "/auth/profile/picture",
+    async (req, res, next) =>{
+        // const { error } = loginValidation(req.body);
+        // if(error) {
+        //     return res.status(400).json({
+        //         message: error.details[0].message.replace(/[\"]/gi, "")
+        //     })
+        // }
+        const { auth } = req.headers;
+        const token = auth;
+
+        try {
+            await authenticationnByToken(token, req);
+
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+        next();
+    },
+    async (req, res) => {
+        const user_id = req.user._id;
+        try{
+            let image = req.files.file;
+            if(req.files){
+                image = req.files.file;
+            }else{
+                console.log('no file uploaded')
+            }
+            console.log(image)
+            const result = await uploadUserPic(image, user_id);
+            return res.status(201).json(result);
+
+        } catch (e) {
+            console.log(e)
+            return res.status(e.code).json(e);
+        }
     }
 )
 

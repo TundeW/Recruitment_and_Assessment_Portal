@@ -123,6 +123,123 @@ async function checkIfEmailAndPasswordMatch(body){
 }
 
 
+async function getLatestApplicationDate(){
+    const queryObj = {
+        text: queries.findLastestApplicationDate,
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Error getting latest application",
+            });
+        }
+        if (rowCount > 0) {
+            return Promise.resolve({
+                latest: rows[0].max
+            });
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error finding latest application",
+        });
+    }
+}
+
+async function getLatestApplicationId(created_at){
+    const queryObj = {
+        text: queries.findApplicationIdByCreatedAt,
+        values: [created_at],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Error getting latest application id",
+            });
+        }
+        if (rowCount > 0) {
+            return Promise.resolve({
+                data: rows[0].batch_id
+            });
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error finding latest application id",
+        });
+    }
+}
+
+async function checkUserDetailsMatch(body, id){
+    const {
+        first_name,
+        last_name,
+        email
+    } = body;
+
+    const queryObj = {
+        text: queries.findUserById,
+        values: [id],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Error confirming applicants details",
+            });
+        }
+        if (rowCount > 0) {
+            if(rows[0].first_name != first_name){
+                return Promise.reject({
+                    status: "error",
+                    code: 409,
+                    message: "Please fill correct First Name",
+                });
+            }else if(rows[0].last_name != last_name){
+                return Promise.reject({
+                    status: "error",
+                    code: 409,
+                    message: "Please fill correct Last Name",
+                });
+            }else if(rows[0].email != email) {
+                return Promise.reject({
+                    status: "error",
+                    code: 409,
+                    message: "Email must match what was used to Sign Up",
+                });
+            }else{
+                return Promise.resolve({})
+            }
+
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error matching applicants details",
+        });
+    }
+}
+
 async function createNewApplicant( body, cv, user_id) {
 
     const cvname = cv.name;
@@ -141,7 +258,7 @@ async function createNewApplicant( body, cv, user_id) {
         date_of_birth,
         address,
         university,
-        course,
+        course_of_study,
         cgpa,
         application_id
     } = body;
@@ -152,7 +269,7 @@ async function createNewApplicant( body, cv, user_id) {
 
     const queryObj = {
         text: queries.addNewApplicant,
-        values: [user_id, application_id, first_name, last_name, email, date_of_birth, address, university, course, cgpa, cvname, status, assessment_status, created_at, created_at],
+        values: [user_id, application_id, first_name, last_name, email, date_of_birth, address, university, course_of_study, cgpa, cvname, status, assessment_status, created_at, created_at],
     };
 
     try{
@@ -858,9 +975,10 @@ async function updateAssessmentScoreByUserId(body, user_id){
         assessment_score
     } = body;
     const assessment_status = true;
+    const status = 'Completed';
     const queryObj = {
         text: queries.updateApplicantScoreByUserId,
-        values: [assessment_id, assessment_score, assessment_status, user_id],
+        values: [assessment_id, assessment_score, assessment_status, user_id, status],
     };
 
     try{
@@ -921,6 +1039,57 @@ async function updateAssessmentStatusById(assessment_id){
 }
 
 
+async function uploadUserPic(image, user_id) {
+    let imagename = null
+    if(image){
+        imagename = image.name;
+        image.mv('upload_profile/'+imagename, (err) => {
+            if (err) {
+                console.log('Could Not Upload picture');
+            }
+            else{
+                console.log(imagename)
+            }
+        })
+    }
+
+    const queryObj = {
+        text: queries.uploadProfilePic,
+        values: [imagename, user_id],
+    };
+
+    try{
+        const { rowCount } = await db.query(queryObj);
+
+        if (rowCount == 0) {
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Could not upload profile",
+            });
+        }
+
+        if (rowCount > 0){
+            return Promise.resolve({
+                status: "success",
+                code: 201,
+                response: "Picture uploaded Successfully.",
+            });
+        }
+    } catch (e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error uploading picture",
+        });
+    }
+}
+
+
+
+
+
 module.exports = {
     createNewUser,
     checkIfUserDoesNotExistBefore,
@@ -929,6 +1098,7 @@ module.exports = {
     // createNewParcel,
     // authenticationById,
     authorisationById,
+    uploadUserPic,
     // changeDestination,
     // parcelauthorisation,
     // checkParcelStatus,
@@ -959,4 +1129,7 @@ module.exports = {
     updateAssessmentStatusById,
     updateAssessmentScoreByUserId,
     getAllAssessments,
+    getLatestApplicationDate,
+    getLatestApplicationId,
+    checkUserDetailsMatch,
 };

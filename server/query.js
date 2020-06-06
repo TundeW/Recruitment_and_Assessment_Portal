@@ -134,14 +134,28 @@ const queries = {
   `,
 
   updateApplicantScoreByUserId: `
-  UPDATE applicants SET assessment_id=($1), assessment_score=($2), assessment_status=($3) WHERE user_id=($4)
+  UPDATE applicants SET assessment_id=($1), assessment_score=($2), assessment_status=($3), status=($5) WHERE user_id=($4)
   `,
 
   updateAssessmentStatusById: `
   UPDATE assessments SET status=($1) WHERE id=($2)
   `,
 
+  findLastestApplicationDate: `
+  SELECT MAX(created_at) FROM applications
+  `,
 
+  findApplicationIdByCreatedAt: `
+  SELECT * FROM applications WHERE created_at=($1)
+  `,
+
+  findUserById: `
+  SELECT * FROM users WHERE id=($1)
+  `,
+
+  uploadProfilePic: `
+  UPDATE users SET file=($1) WHERE id=($2)
+  `,
 
 };
 
