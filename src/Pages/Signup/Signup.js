@@ -28,6 +28,8 @@ function Signup(props) {
 
     const [passwordShown, setPasswordShown] = useState(false);
 
+    const [loading, setLoading] = useState(false)
+
     const togglePasswordVisibility = () => {
         setPasswordShown(passwordShown ? false: true);
     }
@@ -105,6 +107,7 @@ function Signup(props) {
         e.preventDefault();
         if(validateForm(state.errors)) {
             // console.log(state)
+            setLoading(true)
             const request = (({ errors, submitErrors, confirm_password, ...o }) => o)(state)
             console.log(request)
 
@@ -126,6 +129,7 @@ function Signup(props) {
                         setState({
                            ...state, submitErrors: data.message
                         })
+                        setLoading(false)
                         console.log(data.message)
                     } else {
                         console.log(data.response)
@@ -197,7 +201,7 @@ function Signup(props) {
                 </div>
                 </form>
                 <div className="button">
-                <span  onClick= {submitForm}><Button  text="Sign Up" color="Button"/></span>
+                <span  onClick= {submitForm}><Button  text="Sign Up" color="Button" load={loading}/></span>
                 </div>
                 <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                 <div className="forgot-password">

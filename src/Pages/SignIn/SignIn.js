@@ -21,6 +21,8 @@ function SignIn(props) {
 
     const [passwordShown, setPasswordShown] = useState(false);
 
+    const [loading, setLoading] = useState(false)
+
     const togglePasswordVisibility = () => {
         setPasswordShown(passwordShown ? false: true);
     }
@@ -69,6 +71,7 @@ function SignIn(props) {
     const submitForm = (e) => {
         e.preventDefault()
         if(validateForm(state.errors)) {
+            setLoading(true)
             const request = (({ errors, submitErrors, ...o }) => o)(state)
             // console.log(request)
 
@@ -91,6 +94,7 @@ function SignIn(props) {
                         setState({
                             ...state, submitErrors: data.message
                          })
+                        setLoading(false)
                         console.log(data.message)
                     } else {
                         console.log(data.response)
@@ -103,7 +107,7 @@ function SignIn(props) {
                             })
                         }else{
                             props.history.push({
-                                pathname: '/application'
+                                pathname: '/application/' + data.data.latest_id
                             })
                         }
                     }
@@ -144,12 +148,11 @@ function SignIn(props) {
                         {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                     </div>
                     <div className="submit-button">
-                        <span onClick={submitForm}><Button text="Sign In" color="Button" /></span>
+                        <span onClick={submitForm}><Button text="Sign In" color="Button" load= {loading}/></span>
                     </div>
                     <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                     <div className="f-password">
                         <span>Don’t have an account yet? <a href="/"> Sign Up </a></span>
-                        <span className="forget-two">Forgot Password?</span>
                     </div>
                 </form>
             </div>

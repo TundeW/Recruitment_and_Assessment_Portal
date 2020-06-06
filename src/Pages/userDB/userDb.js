@@ -20,6 +20,11 @@ const UserDb = (props) => {
 
     useEffect(()=>{
         const token = localStorage.getItem('token')
+        if(!token){
+            props.history.push({
+                pathname: '/signin'
+            })
+        }
         const requestOptions = {
             method: 'get',
             headers: {
@@ -60,7 +65,9 @@ const UserDb = (props) => {
     }
 
 
-
+    // const new_update = state.assessment_status ? '': 'You have completed the assessment. Your application will be reviewed.'
+    // console.log(state.assessment_status)
+    // console.log(new_update)
     const status = state.status
     return (
         <div className='user-board'>
@@ -75,7 +82,7 @@ const UserDb = (props) => {
 
                 <div className='user-assessment'>
                     <div className='update-section'>
-                        <UpdateSection text='Updates' />
+                        <UpdateSection text='Updates' update={state.assessment_status}/>
                     </div>
                     <div className='assesshead-section'>
                         <AssessHead text='Take Assessment' content_one="We have 4 days left until the next assessment" content_two= "Watch this space" history={props.history} from='applicant'/>

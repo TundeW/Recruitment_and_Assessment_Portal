@@ -17,6 +17,7 @@ import EntriesResult from './Pages/EntriesResult/entriesResult';
 import Example from './Pages/userDB/example'
 import UserAssessment from './Pages/UserAssessment/UserAssessment';
 import TakeAssessment from './Pages/TakeAssessment/takeAssessment';
+// import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 

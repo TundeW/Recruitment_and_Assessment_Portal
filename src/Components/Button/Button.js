@@ -1,8 +1,10 @@
 import React from 'react';
 import './Button.css'
+import Spinner from 'react-bootstrap/Spinner'
+
 
 function Button(props) {
-    let classtyle; 
+    let classtyle;
     switch (props.color) {
         case "Button":
             classtyle = "Button"
@@ -23,7 +25,10 @@ function Button(props) {
     }
     return (
         <div>
-            <button className={ classtyle } type="submit">{props.text}</button>
+            <button className={ classtyle } type="submit" disabled={props.load}>
+            {props.text}
+            {props.load && <i className='fa fa-refresh fa-spin'></i>}
+            </button>
         </div>
     )
 }

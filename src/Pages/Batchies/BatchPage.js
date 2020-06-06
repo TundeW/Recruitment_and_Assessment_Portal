@@ -15,6 +15,11 @@ const BatchPage = (props) => {
 
     useEffect(()=>{
         const token = localStorage.getItem('token')
+        if(!token){
+            props.history.push({
+                pathname: '/admin/login'
+            })
+        }
         const requestOptions = {
             method: 'get',
             headers: {
@@ -35,6 +40,10 @@ const BatchPage = (props) => {
                 const copies = copy.map(c => ({...c, age: calculateAge(c.date_of_birth), birthdate: changeDateformat(c.date_of_birth)}))
                 console.log(copies)
                 setEntries([...copies])
+                let applications=[];
+                let arr = [...data.data]
+                arr.map(a =>( applications.push[a.application_id]))
+                console.log(arr)
             }
         })
     },[])
@@ -150,7 +159,7 @@ const BatchPage = (props) => {
                     {entries.length !== 0 ?
                         <table>
                             <thead>
-                                <tr>
+                                <tr className='batch_tr'>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th id='age'>DOB - Age <img src={up} id='agebtn' onClick={ageSortUp} /> <img src={down} id='agebtn2' onClick={ageSortDown} /></th>

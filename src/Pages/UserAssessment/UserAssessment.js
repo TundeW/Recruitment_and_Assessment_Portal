@@ -48,6 +48,11 @@ class UserAssessment extends Component {
 
     componentDidMount(){
         const token = localStorage.getItem('token')
+        if(!token){
+            this.props.history.push({
+                pathname: '/signin'
+            })
+        }
         const requestOptions = {
             method: 'get',
             headers: {

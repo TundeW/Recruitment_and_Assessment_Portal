@@ -7,23 +7,33 @@ import plusicon from '../../Components/mainicons/plus icon.svg'
 
 function AssessmentHistory(props) {
 
-const [sortby, setSortby] = useState('default')
-const [batch, setBatch] = useState(1)
-
 const [assess, setAssess] = useState([])
 const [state, setState] = useState({
-file: "",
-question: "",
-option_a: "",
-option_b: "",
-option_c: "",
-option_d: "",
-answer: ""
+    file: "",
+    question: "",
+    option_a: "",
+    option_b: "",
+    option_c: "",
+    option_d: "",
+    answer: "",
+    id: "",
+    assessment_id: ""
 })
+
+const [assessmentid, setAssessmentid] = useState()
+
+const[questionList, setQuestionList] = useState([])
+const [currentQuestion, setCurrentQuestion] = useState(0)
+
 
 
 useEffect(()=>{
     const token = localStorage.getItem('token')
+    if(!token){
+        props.history.push({
+            pathname: '/admin/login'
+        })
+    }
     const requestOptions = {
         method: 'get',
         headers: {
@@ -56,24 +66,42 @@ const fileChange = e => {
 
 const handleChange = e => {
     e.preventDefault()
-    setState({
-        ...state,
-        [e.target.name]: [e.target.value]
-    })
+    const a = false;
+    if (a) {
+        setState({
+            ...state,
+            [e.target.name]: [e.target.value]
+        })
+    }
+
 }
 
 const submitForm = (e) => {
     e.preventDefault()
-    console.log(state)
-    setState({
-        file: "",
-        question: "",
-        option_a: "",
-        option_b: "",
-        option_c: "",
-        option_d: "",
-        answer: ""
-    })
+    if(currentQuestion < questionList.length-1){
+        setCurrentQuestion(currentQuestion + 1);
+        setState({
+            file: questionList[currentQuestion + 1].image,
+            question: questionList[currentQuestion + 1].question,
+            option_a: questionList[currentQuestion + 1].options[0],
+            option_b: questionList[currentQuestion + 1].options[1],
+            option_c: questionList[currentQuestion + 1].options[2],
+            option_d: questionList[currentQuestion + 1].options[3],
+            answer: questionList[currentQuestion + 1].answer,
+            id: questionList[currentQuestion + 1].id,
+            assessment_id: questionList[currentQuestion + 1].assequestionList
+        })
+    }
+    // console.log(state)
+    // setState({
+    //     file: "",
+    //     question: "",
+    //     option_a: "",
+    //     option_b: "",
+    //     option_c: "",
+    //     option_d: "",
+    //     answer: ""
+    // })
 }
 
 const changeDateformat = (date_of_birth) =>{
@@ -90,6 +118,57 @@ const changeTimeFormat =(num) =>{
     return min + ' ' + sec
 }
 
+const selectAssessment = id => {
+  setAssessmentid(id);
+  const token = localStorage.getItem('token')
+  const request = parseInt(id)
+
+  const requestOptions = {
+      method: 'get',
+      headers: {
+          'Content-Type': 'application/json',
+          'auth': token,
+          'assessment_id': request
+      }
+  }
+
+  const url = 'http://localhost:5000/api/v1/admin/assessment';
+
+  fetch(url, requestOptions).then(response => response.json()).then(data=>{
+      if (data.message){
+          console.log(data.message)
+      }else{
+          console.log(data)
+          setQuestionList([...data.data])
+          setState({
+              file: data.data[currentQuestion].image,
+              question: data.data[currentQuestion].question,
+              option_a: data.data[currentQuestion].options[0],
+              option_b: data.data[currentQuestion].options[1],
+              option_c: data.data[currentQuestion].options[2],
+              option_d: data.data[currentQuestion].options[3],
+              answer: data.data[currentQuestion].answer,
+              id: data.data[currentQuestion].id,
+              assessment_id: data.data[currentQuestion].assessment_id
+          })
+          setCurrentQuestion(0)
+          // const time = new Date();
+          // time.setSeconds(time.getSeconds() + data.assessment.timelimit);
+          // console.log(data.assessment.timelimit)
+          // this.setState(()=>{
+          //     return {
+          //         questionsList: data.data,
+          //         assessment_id: data.assessment.id,
+          //         timelimit: time,
+          //         questions: data.data[this.state.currentQuestion].question,
+          //         answer: data.data[this.state.currentQuestion].answer,
+          //         options: data.data[this.state.currentQuestion].options
+          //     }
+          // })
+      }
+  })
+
+};
 
 return (
     <div>
@@ -97,8 +176,8 @@ return (
         <br/>
         <div className="assessment-history">
             <h2>Assessment History</h2>
-            <div className='hist-back'>
-                <div className='Hist-table'>
+            <div className='ass-back'>
+                <div className='ass-table'>
                     {assess.length !== 0 ?
                         <table>
                             <thead>
@@ -113,7 +192,7 @@ return (
                             <tbody>
                                 {[...assess].map((entry, id) => {
                                     return (
-                                        <tr key={entry.id} className='assess_row'>
+                                        <tr key={entry.id} className={`assess_row ${assessmentid == entry.id ? "assessmentSelected" : null}`} onClick={() => selectAssessment(entry.id)}>
                                             <td>{entry.application_id}</td>
                                             <td>{changeDateformat(entry.created_at)}</td>
                                             <td>{entry.questions_total} </td>

@@ -31,6 +31,12 @@ function ComposeAssessment(props) {
     })
 
     useEffect(()=>{
+        const token = localStorage.getItem('token')
+        if(!token){
+            props.history.push({
+                pathname: '/admin/login'
+            })
+        }
         const { id } = props.match.params;
         setAssessment({...assessment, application_id: id})
     },[])

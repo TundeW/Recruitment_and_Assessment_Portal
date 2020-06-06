@@ -21,6 +21,12 @@ function AdminApplication(props) {
     const [link, setLink] = useState('')
 
     useEffect(()=>{
+        const token = localStorage.getItem('token')
+        if(!token){
+            props.history.push({
+                pathname: '/admin/login'
+            })
+        }
         const id = state.batch_id
         const appLink = id ? `http://localhost:3000/application/${id}` : ''
         setLink(appLink)

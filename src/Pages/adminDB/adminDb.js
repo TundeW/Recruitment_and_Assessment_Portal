@@ -24,6 +24,11 @@ class AdminDb extends Component {
 
     componentDidMount() {
         const token = localStorage.getItem("token")
+        if(!token){
+            this.props.history.push({
+                pathname: '/admin/login'
+            })
+        }
         const requestOptions = {
             method: 'get',
             headers: {

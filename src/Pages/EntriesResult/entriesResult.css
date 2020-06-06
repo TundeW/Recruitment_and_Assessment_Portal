@@ -97,13 +97,15 @@
     display: flex;
     text-align: center;
     margin-top: 15px;
+    margin-left: 40px;
+    margin-top: 10px;
 }
 
-#score{
+/* #score{
     text-align: absolute;
     margin-bottom: 0px;
     margin-left: 0px;
-}
+} */
 
 #cgpabtn {
     display: block;
@@ -131,28 +133,35 @@
     margin-left: -8px;
 }
 
+#score{
+display: flexbox;
+}
+
 #scorebtn {
-    display: block;
+    display: grid;
     width: 8px;
     height: 10px;
-    margin-left: 202px;
+    margin-left: 220px;
+    margin-top: -20px;
     background-color: #2B3C4E;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 #scorebtn2 {
+    display: grid;
     width: 8px;
     height: 10px;
     fill: #2B3C4E;
-    margin-bottom: 10px;
-    margin-left: 134px;
+    margin-left: 220px;
+    /* / margin-bottom: 10px; /
+    / margin-left: 134px; / */
 }
 
-#age{
+#e-age{
     display: flex;
     text-align: center;
-    margin-top: 10px;
-    margin-left: 80px;
+    /* margin-top: 10px; */
+    margin-left: 60px;
 }
 
 #agebtn2 {

@@ -8,7 +8,7 @@
     margin-top: 30px;
 }
 
-.Hist-table table{
+.ass-table table{
     border-collapse: collapse;
     width: 946.48px;
     /* left: 325px; */
@@ -18,12 +18,14 @@
     margin-left: 15px;
 }
 
-.hist-back{
+.ass-back{
 width: 980px;
 height: 308px;
+/* height: inherit; */
 left: 334px;
 top: 184px;
 align-items: center;
+overflow: hidden;
 
 background: #FFFFFF;
 box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
@@ -67,4 +69,15 @@ border-radius: 8px;
 
 .assess_row{
     height: 70px;
+}
+
+.assessmentSelected {
+    box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+    border-left: 4px solid #31D283 ;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.assess_row:hover{
+    cursor: pointer;
 }

@@ -10,11 +10,14 @@
 
 .login-background{
     background: #111E2B;
-    background-size: cover;
+    /* background-size: cover; */
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
 }
 div.background-image{
     position: relative;
     margin-top: 50px;
+    margin-left: 90px;
 }
 .admin-form{
     display: block;
@@ -22,7 +25,7 @@ div.background-image{
     align-items: center;
     margin-top: 173px;
     float: right;
-    margin-right: -25px;
+    /* margin-right: -25px; */
 }
 .forget-admin-password{
     display: flex;

@@ -30,12 +30,19 @@ function ApplicationForm(props) {
             university: "",
             course_of_study: "",
             cgpa:"",
-        }
+        },
+        submitErrors: ''
     });
 
     useEffect(()=>{
         const { id } = props.match.params;
         setState({...state, application_id: id})
+        const token = localStorage.getItem('token')
+        if(!token){
+            props.history.push({
+                pathname: '/signin'
+            })
+        }
     },[])
 
     const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
@@ -130,7 +137,7 @@ function ApplicationForm(props) {
         e.preventDefault();
         console.log('submitted')
         if(validateForm(state.errors)) {
-            const request = (({ errors, ...o }) => o)(state)
+            const request = (({ errors, submitErrors, ...o }) => o)(state)
             const token = localStorage.getItem("token")
             var formData = new FormData()
 
@@ -155,6 +162,9 @@ function ApplicationForm(props) {
                         // Here you should have logic to handle invalid creation of a user.
                         // This assumes your Rails API will return a JSON object with a key of
                         // 'message' if there is an error with creating the user, i.e. invalid username
+                        setState({
+                           ...state, submitErrors: data.message
+                        })
                         console.log(data.message)
                     } else {
                         console.log(data.response)
@@ -250,6 +260,7 @@ function ApplicationForm(props) {
                 <div className="submit-button">
                     <span onClick= {submitForm}><Button text="Submit" color="Button"/></span>
                 </div>
+                <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
             </div>
             <br/>
             <br/>

@@ -54,7 +54,7 @@
     font-size: 23.5555px;
 }
 
-tr:hover {
+.batch_tr:hover {
     box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
     border-left: 4px solid #31D283 ;
     border-radius: 8px;
@@ -77,7 +77,7 @@ table {
     box-shadow: None;
 }
 
-tbody tr{
+tbody .batch_tr{
     margin-top: 40px;
 }
 thead tr{

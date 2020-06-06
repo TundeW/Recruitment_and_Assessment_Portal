@@ -21,7 +21,7 @@ const UserSideBar = (props) => {
             <div className='sidebar'>
                 <TopBar  style="user-top-bar" img={userProfile} name="Jane Doe" email="doe@enyata.com" />
                 <div className='tab-list'>
-                <IconTab icon={Rectangle} img={dashIcon} text='Dashboard' link='/admin/home' select = {selected}/>
+                <IconTab icon={Rectangle} img={dashIcon} text='Dashboard' link='/home' select = {selected}/>
                 <IconTab img={compAss} text='Assessment' link='/assessment/start' select = {selected}/>
                 <br/>
                 <div className='log-out' onClick={userLogOut}><IconTab img={logOut} text="Log Out" className="log"/></div>

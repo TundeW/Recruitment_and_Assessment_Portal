@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './successPage.css';
 import SideBar from '../../Components/sidebar/sideBar';
 import IconLevel from '../../Components/iconLevel/iconLevel';
@@ -12,7 +12,15 @@ import Button from '../../Components/Button/Button'
 import UserSideBar from '../../Components/usersidebar/usersidebar'
 
 
-const successPage = (props) => {
+const SuccessPage = (props) => {
+    useEffect(()=>{
+        const token = localStorage.getItem('token')
+        if(!token){
+            props.history.push({
+                pathname: '/signin'
+            })
+        }
+    })
     const goToHome=()=>{
         props.history.push({
             pathname: '/home'
@@ -44,4 +52,4 @@ const successPage = (props) => {
     )
 }
 
-export default successPage
+export default SuccessPage

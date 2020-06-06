@@ -15,6 +15,11 @@ const BatchPage = (props) => {
 
     useEffect(()=>{
         const token = localStorage.getItem('token')
+        if(!token){
+            props.history.push({
+                pathname: '/admin/login'
+            })
+        }
         const requestOptions = {
             method: 'get',
             headers: {
