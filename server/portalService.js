@@ -288,7 +288,7 @@ async function createNewApplicant( body, cv, user_id) {
             const useremail = email;
             const subject = 'Enyata Academy Application'
             const text = `Your application into Academy ${application_id} has been received. You can monitor your application on your dashboard and take assessments`;
-            sendMail(useremail, subject, text)
+            // sendMail(useremail, subject, text)
             return Promise.resolve({
                 status: "success",
                 code: 201,
