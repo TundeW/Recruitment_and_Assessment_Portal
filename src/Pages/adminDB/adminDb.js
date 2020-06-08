@@ -16,8 +16,17 @@ class AdminDb extends Component {
         applications: [],
         total: 0,
         individual: {},
-        selectedacademy: 1
+        selectedacademy: 1,
+        // show: false
     }
+
+//     showModal = () => {
+//     this.setState({show: true});
+//   };
+
+//   hideModal = () => {
+//     this.setState({show: false});
+//   };
 
     // console.log(application)
     // console.log(setApplication)
@@ -146,7 +155,7 @@ class AdminDb extends Component {
         const obj = this.state.applications.filter(c => c.batch_id == 2)[0]
         return (
             <div className='mainpage'>
-                <div><SideBar selected='Dashboard' history={this.props.history}/></div>
+                <div><SideBar selected='Dashboard' history={this.props.history} /></div>
                 <div className='dashboard' >
                     <p className='dashtext'>Dashboard</p>
                     <div className='dashboard-section'>

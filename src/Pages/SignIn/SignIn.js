@@ -21,7 +21,6 @@ function SignIn(props) {
 
     const [passwordShown, setPasswordShown] = useState(false);
 
-    const [loading, setLoading] = useState(false)
 
     const togglePasswordVisibility = () => {
         setPasswordShown(passwordShown ? false: true);
@@ -71,7 +70,6 @@ function SignIn(props) {
     const submitForm = (e) => {
         e.preventDefault()
         if(validateForm(state.errors)) {
-            setLoading(true)
             const request = (({ errors, submitErrors, ...o }) => o)(state)
             // console.log(request)
 
@@ -94,7 +92,6 @@ function SignIn(props) {
                         setState({
                             ...state, submitErrors: data.message
                          })
-                        setLoading(false)
                         console.log(data.message)
                     } else {
                         console.log(data.response)
@@ -147,8 +144,8 @@ function SignIn(props) {
                         <div className="eyes-signin" onClick={togglePasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
                         {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                     </div>
-                    <div className="submit-button">
-                        <span onClick={submitForm}><Button text="Sign In" color="Button" load= {loading}/></span>
+                    <div className="submit">
+                        <span onClick={submitForm}><Button text="Sign In" color="Button"/></span>
                     </div>
                     <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                     <div className="f-password">

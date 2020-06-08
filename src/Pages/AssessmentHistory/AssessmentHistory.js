@@ -4,6 +4,7 @@ import Button from '../../Components/Button/Button'
 import './AssessmentHistory.css'
 import SideBar from '../../Components/sidebar/sideBar'
 import plusicon from '../../Components/mainicons/plus icon.svg'
+import { Scrollbars } from 'react-custom-scrollbars';
 
 function AssessmentHistory(props) {
 
@@ -178,6 +179,7 @@ return (
             <h2>Assessment History</h2>
             <div className='ass-back'>
                 <div className='ass-table'>
+                <Scrollbars style={{ width: 970, height: 430, marginTop: -140 }}>
                     {assess.length !== 0 ?
                         <table>
                             <thead>
@@ -204,6 +206,7 @@ return (
                             </tbody>
                         </table> : <div>There are no applications to review</div>
                     }
+                    </Scrollbars>
                 </div>
             </div>
             <div>

@@ -1,8 +1,17 @@
+.result{
+    position: absolute;
+    float: right;
+    width: 1200px;
+    height: 1024px;
+    top: 0px;
+    left: 222px;
+    padding-left: 70px;
+}   
+
 .result-select{
     position: absolute;
     width: 299px;
     height: 53px;
-    left: 334px;
     top: 101px;
     border: #2B3C4E;
     font-family: Lato;
@@ -18,7 +27,7 @@
     display: inline-flex;
     width: auto;
    width: 450px;
-   /* / margin-top: 100px; / */
+   /* margin-top: 100px; */
 }
 
 .result-entries select{
@@ -44,11 +53,11 @@
     font-size: 23.5555px;
 }
 
-.tbody .tr:hover {
+tbody tr:hover {
     box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
     border-left: 4px solid #31D283 ;
     border-radius: 8px;
-
+    /* margin-bottom: 10px; */
 }
 
 #result-entry-text{
@@ -59,34 +68,19 @@
     margin-top: 0px;
 }
 
-.entrytable {
-    border-collapse: collapse;
-    width: 1150px;
-    left: 334px;
-    position: absolute;
-    top: 230px;
 
-}
-
-.tbody .tr{
-    margin-top: 40px;
-}
-.entrytable .thead .tr{
+table thead tr{
     background-color: #2B3C4E;
+    /* height: 46px; */
     color: #fff;
 }
-
- .entrytable .tbody .tr td{
+table tbody tr td{
     height: 40px;
 }
 
-.tbody .tr td {
+tbody tr{
     text-align: center;
     color: #2B3C4E;
-}
-
-.tr{
-    height: 70px;
 }
 
 #result-entry-text2{
@@ -94,80 +88,113 @@
 }
 
 #cgpa{
-    display: flex;
+    /* display: flex; */
     text-align: center;
-    margin-top: 15px;
-    margin-left: 40px;
-    margin-top: 10px;
 }
 
-/* #score{
-    text-align: absolute;
-    margin-bottom: 0px;
-    margin-left: 0px;
-} */
+#score{
+    text-align: center;
+}
+th #score{
+   margin-top: 15px; 
+}
 
 #cgpabtn {
     display: block;
     width: 8px;
-    height: 12px;
-    margin-left: 8px;
+    /* height: 12px; */
+    /* margin-left: 8px; */
     background-color: #2B3C4E;
     justify-content: center;
 }
 
 #agebtn {
     display: block;
-    width: 8px;
-    height: 12px;
-    margin-left: 8px;
+    /* width: 8px; */
+    background-color: #2B3C4E;
+    justify-content: center;
+}
+/* .age{
+    display: flex;
+} */
+#cgpabtn2 {
+    /* width: 8px;
+    height: 10px; */
+    fill: #2B3C4E;
+}
+
+#scorebtn {
+    display: block;
+    /* width: 8px;
+    height: 10px; */
+    /* margin-left: 202px; */
     background-color: #2B3C4E;
     justify-content: center;
 }
 
-#cgpabtn2 {
-    width: 8px;
-    height: 10px;
-    fill: #2B3C4E;
-    margin-top: 10px;
-    margin-left: -8px;
-}
-
-#score{
-display: flexbox;
-}
-
-#scorebtn {
-    display: grid;
-    width: 8px;
-    height: 10px;
-    margin-left: 220px;
-    margin-top: -20px;
-    background-color: #2B3C4E;
-    /* justify-content: center; */
-}
-
 #scorebtn2 {
-    display: grid;
-    width: 8px;
-    height: 10px;
+    /* width: 8px;
+    height: 10px; */
     fill: #2B3C4E;
-    margin-left: 220px;
-    /* / margin-bottom: 10px; /
-    / margin-left: 134px; / */
+    margin-bottom: 10px;
+    /* margin-left: 134px; */
 }
-
-#e-age{
+#dob{
     display: flex;
-    text-align: center;
-    /* margin-top: 10px; */
-    margin-left: 60px;
+    align-content: center;
+    justify-content: center;
+
 }
+.up, .down{
+    grid-column: 1;
+  }
+#age{
+    display: grid;
+    grid-template-columns: 0.9fr 0.4fr;
+    justify-content: center;
+    margin-left: 14%;
+    /* align-content: center;
+    align-items: center; */
+}
+#cgp{
+    display: grid;
+    grid-template-columns: 0.7fr 0.4fr;
+    justify-content: center;
+    margin-left: 14%;
+    /* align-content: center;
+    align-items: center; */
+}
+#scores{
+    display: grid;
+    grid-template-columns: 0.9fr 0.5fr;
+    justify-content: center;
+}
+.scores{
+    display: grid;
+}
+.age{
+    display: grid;
+    grid-column-gap: 5px;
+}
+.table th {
+    text-align: center;
+  }
 
 #agebtn2 {
-    width: 8px;
-    height: 12px;
+    /* width: 8px;
+    height: 12px; */
     fill: #2B3C4E;
     margin-top: 10px;
-    margin-left: -8px;
+    /* margin-left: -8px; */
 }
+
+/* .ent-table {
+    border-collapse: collapse;
+    width: 1000px;
+    position: absolute;
+    left: 104px;
+    top: 230px;
+} */
+/* .arrow{
+  justify-content: center;
+} */

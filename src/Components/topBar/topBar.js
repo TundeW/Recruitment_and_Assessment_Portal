@@ -7,11 +7,10 @@ const TopBar = (props) => {
 
     const { user, first_name, last_name, email } = useContext(UserContext);
 
-
-
     // if (props.isActive) {
     //   className += ' menu-active';
     // }
+    
 
     let userName;
     let userEmail;
@@ -42,13 +41,14 @@ const TopBar = (props) => {
         default:
     }
     return (
-
+       <div>
         <div className={classtopBar}>
         <div className="enyata-profile">
-            <img src={props.img}  alt="enyata-profile" />
+        <span><img src={props.img}  alt="enyata-profile" /></span>
         </div>
             <p className={userName}>{first_name + " " + last_name}</p>
             <p className={userEmail}>{email}</p>
+        </div>
         </div>
     )
 }

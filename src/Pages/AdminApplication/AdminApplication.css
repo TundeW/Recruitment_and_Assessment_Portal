@@ -31,12 +31,13 @@
 
 
 .instruction-area{
-    width: 91%;
+    width: 91.5%;
     height: 144px;
     border: 1.5px solid #2B3C4E;
     box-sizing: border-box;
     border-radius: 4px;
-
+    font-size: 15px;
+    font-family: "Lato";
 }
 .admin-instruction{
     font-family: "Lato";
@@ -44,6 +45,7 @@
     line-height: 17px;
     color: #2B3C4E;
     margin-top: 35px;
+    margin-bottom: 8px;
     font-style: normal;
     font-weight: normal;
 }

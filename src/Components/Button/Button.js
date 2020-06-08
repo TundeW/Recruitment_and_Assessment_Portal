@@ -1,7 +1,5 @@
 import React from 'react';
 import './Button.css'
-import Spinner from 'react-bootstrap/Spinner'
-
 
 function Button(props) {
     let classtyle;

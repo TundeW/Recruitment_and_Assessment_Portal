@@ -8,6 +8,7 @@ import logOut from '../dashboardIcons/logout.svg'
 import IconTab from '../iconTab/iconTab'
 import dashIcon from '../dashboardIcons/dashIcon.svg';
 
+
 const UserSideBar = (props) => {
     const { selected, history } = props
     const userLogOut = () =>{

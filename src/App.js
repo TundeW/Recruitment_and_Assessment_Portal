@@ -17,7 +17,9 @@ import EntriesResult from './Pages/EntriesResult/entriesResult';
 import Example from './Pages/userDB/example'
 import UserAssessment from './Pages/UserAssessment/UserAssessment';
 import TakeAssessment from './Pages/TakeAssessment/takeAssessment';
-// import 'bootstrap/dist/css/bootstrap.min.css'
+import ProfileModal from './Components/ProfileModal/ProfileModal';
+
+
 
 
 
@@ -42,6 +44,7 @@ function App() {
     <Route exact path='/admin/results' component={EntriesResult} />
     <Route exact path='/user/assessment' component={UserAssessment} />
     <Route exact path='/assessment/start' component={TakeAssessment} />
+    <Route exact path='/modal' component={ProfileModal} />
    </Switch>
    </BrowserRouter>
    </UserContextProvider>

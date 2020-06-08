@@ -99,7 +99,11 @@ margin-left: 10%;
 }
 
 .file-text-application{
-margin-top: -13px;
+margin-top: -7px;
+}
+.file-name{
+    color: #00F026;
+    margin-top: -3%;
 }
 .plusicon-application{
 margin-right: 125px;

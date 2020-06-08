@@ -49,10 +49,13 @@
      margin-left: 64px;
  }
 .error{
-    font-size: 10px;
+    font-size: 15px;
     color: red;
 }
 .eyes-signin{
-    margin-top: -9%;
+    margin-top: -11%;
     margin-left: 91%;
+}
+.submit{
+    text-align: center;
 }

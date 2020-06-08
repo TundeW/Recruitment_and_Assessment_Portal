@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './sideBar.css'
 import IconTab from '../iconTab/iconTab'
 import josh from '../dashboardIcons/Ellipse.svg';
@@ -13,8 +13,11 @@ import TopBar from '../topBar/topBar';
 import logOut from '../dashboardIcons/logout.svg'
 
 
-const sideBar = (props) => {
+
+const SideBar = (props) => {
+
     const { selected, history } = props
+
     const adminLogOut = () =>{
         localStorage.clear()
         history.push({
@@ -24,7 +27,7 @@ const sideBar = (props) => {
     return (
         <div>
             <div className='sidebar'>
-                <TopBar style="top-bar" img={josh}/>
+                <TopBar style="top-bar" img={josh} />
                 <div className='tab-list'>
                     <IconTab icon={Rectangle} img={dashIcon} text='Dashboard' link='/admin/dashboard' select = {selected}/>
                     <IconTab img={createIcon} text='Create Application' link='/admin/application'  select = {selected}/>
@@ -40,4 +43,4 @@ const sideBar = (props) => {
     )
 }
 
-export default sideBar
+export default SideBar
