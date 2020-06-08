@@ -36,6 +36,8 @@
     border: 1.5px solid #2B3C4E;
     box-sizing: border-box;
     border-radius: 4px;
+    font-size: 15px;
+    font-family: "Lato";
 
 }
 .admin-instruction{
@@ -44,6 +46,7 @@
     line-height: 17px;
     color: #2B3C4E;
     margin-top: 35px;
+    margin-bottom: 8px;
     font-style: normal;
     font-weight: normal;
 }
@@ -63,4 +66,8 @@
     margin-right: 47px;
     margin-top: 35px;
     margin-bottom: 125px;
+}
+.admin-server-error{
+    margin-right: 100px;
+    text-align: center;
 }

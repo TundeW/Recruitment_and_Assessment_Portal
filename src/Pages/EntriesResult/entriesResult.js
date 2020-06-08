@@ -182,15 +182,15 @@ const BatchPage = (props) => {
                 <div className='ent-table'>
                     {entries.length !== 0 ?
                         <table className= 'entrytable'>
-                            <thead className='thead'>
+                            <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th id='age'>DOB - Age <img src={up} id='agebtn' onClick={ageSortUp} /> <img src={down} id='agebtn2' onClick={ageSortDown} /></th>
+                                    <th><span id="age">DOB - Age <span className="age"><img src={up} className="up" onClick={ageSortUp} /><img className="down" src={down} onClick={ageSortDown}/></span></span></th>
                                     <th>Address</th>
                                     <th>University</th>
-                                    <th id='cgpa'>CGPA <img src={up} id='cgpabtn' onClick={cgpaSortUp} /> <img src={down} id='cgpabtn2' onClick={cgpaSortDown} /> </th>
-                                    <th id='score'>Test Scores <img src={up} id='scorebtn' onClick={scoreSortUp} /> <img src={down} id='scorebtn2' onClick={scoreSortDown} /> </th>
+                                    <th><span id="cgp">CGPA <span className="age"><img src={up} className="up" onClick={ageSortUp} /><img className="down" src={down} onClick={ageSortDown}/></span></span></th>
+                                    <th><span id="scores">Test Scores <span className="scores"><img src={up} className="up" onClick={ageSortUp} /><img className="down" src={down} onClick={ageSortDown}/></span></span></th>
 
                                 </tr>
                             </thead>

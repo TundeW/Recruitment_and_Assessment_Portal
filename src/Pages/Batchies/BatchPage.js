@@ -166,13 +166,13 @@ const BatchPage = (props) => {
                     {entries.length !== 0 ?
                         <table>
                             <thead>
-                                <tr className='batch_tr'>
+                                <tr>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th id='age'>DOB - Age <img src={up} id='agebtn' onClick={ageSortUp} /> <img src={down} id='agebtn2' onClick={ageSortDown} /></th>
+                                    <th><span id="age">DOB - Age <span className="age"><img src={up} className="up" onClick={ageSortUp} /><img className="down" src={down} onClick={ageSortDown}/></span></span></th>
                                     <th>Address</th>
                                     <th>University</th>
-                                    <th id='cgpa'>CGPA <img src={up} id='cgpabtn' onClick={cgpaSortUp} /> <img src={down} id='cgpabtn2' onClick={cgpaSortDown} /> </th>
+                                    <th><span id="cgp">CGPA <span className="age"><img src={up} className="up" onClick={ageSortUp} /><img className="down" src={down} onClick={ageSortDown}/></span></span></th>
                                 </tr>
                             </thead>
                             <tbody>

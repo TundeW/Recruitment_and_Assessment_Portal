@@ -213,7 +213,7 @@ function ApplicationForm(props) {
                     <input type="file" id="file" name= "file"  onChange={fileChange}/>
                     <div className="file-text-application"><label for="file" >Upload CV</label></div>
                     <div className="plusicon-application"><img src = {plusicon} alt="plus-icon" /></div>
-                    <div>{state.file ? state.file.name: ""}</div>
+                    <div className="file-name">{state.file ? state.file.name: ""}</div>
                     </div>
                 </div>
                 <div className="application-form-input">

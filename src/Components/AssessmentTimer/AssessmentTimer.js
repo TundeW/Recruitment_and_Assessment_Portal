@@ -21,7 +21,7 @@ function AssessmentTimer({ expiryTimestamp, expire }) {
   return (
     <div style={{textAlign: 'center'}}>
       <div style={{fontSize: '35px'}}>
-        <span>{minutes}</span>:<span>0{seconds}</span><span></span>
+        <span id='num'>{minutes}</span><span id='num-text'>min</span><span id='num'>0{seconds}</span><span id='num-text'>sec</span>
       </div>
       {/* <p>{isRunning ? 'Running' : 'Not running'}</p>
       <button onClick={start}>Start</button>

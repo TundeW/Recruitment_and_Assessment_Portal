@@ -172,7 +172,7 @@ function AdminApplication(props) {
                    <br />
                    {errors.instructions.length > 0 && <span className='error'>{errors.instructions}</span>}
                </div>
-               <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
+               <div className="admin-server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                <div className="admin-application-button">
                <span onClick={ submitForm }><Button text="Submit" color="Button" load= {loading}/></span>
                </div>

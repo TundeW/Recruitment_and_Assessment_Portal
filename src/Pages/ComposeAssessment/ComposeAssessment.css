@@ -37,16 +37,17 @@ h2{
 }
 .compose-assessment-button{
     display: grid;
-    grid-template-columns: 0.5fr 0.45fr;
+    grid-template-columns: 1fr 0.9fr;
+    grid-column-gap: 11%;
+    margin-right: 11%;
    text-align: center;
-   margin-left: -50px;
    margin-top: 49px;
 }
 .finish-btn{
     text-align: center;
     margin-top: 50px;
     margin-bottom: 80px;
-    margin-left: -4%;
+    margin-left: -8%;
 }
 .question-number{
     margin-bottom: 20px;
@@ -103,6 +104,8 @@ input[type=file]{
 
 .span-timer{
     display: flex;
+    margin-top: 50px;
+    margin-left: 7%;
 }
 
  #min{
@@ -136,4 +139,9 @@ input[type=file]{
 
 input[type=number]::-webkit-inner-spin-button {
     display: absolute;
+}
+
+.assessment-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }

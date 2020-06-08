@@ -135,11 +135,12 @@ function AdminLogin(props) {
                     <br />
                     <FormInput label="Password" type={passwordShown ? "text" : "password"} name="password"  value={state.password} change={handleChange} color="admin" labelColor="admin-label"/>
                     <div className="eyes-admin-signin" onClick={togglePasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
+                    <br />
                     {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                     <div className="admin-login-button">
                     <span onClick={submitForm}><Button text="Sign In" color="admin-log" load= {loading}/></span>
                     </div>
-                    {state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}
+                    <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                     </div>
                 </div>
                 <div className="background-image">

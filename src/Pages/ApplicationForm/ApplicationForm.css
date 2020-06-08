@@ -14,7 +14,7 @@
 
 .application-form-body{
     width: 800px;
-    height: 515px;
+    height: 555px;
     background: #ffffff;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
@@ -99,7 +99,12 @@ margin-left: 10%;
 }
 
 .file-text-application{
-margin-top: -13px;
+margin-top: -7px;
+}
+.file-name{
+    color: #00F026;
+    margin-top: -3%;
+    font-size: 12px;
 }
 .plusicon-application{
 margin-right: 125px;

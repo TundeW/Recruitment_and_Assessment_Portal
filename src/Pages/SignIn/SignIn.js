@@ -147,7 +147,7 @@ function SignIn(props) {
                         <div className="eyes-signin" onClick={togglePasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
                         {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                     </div>
-                    <div className="submit-button">
+                    <div className="submit">
                         <span onClick={submitForm}><Button text="Sign In" color="Button" load= {loading}/></span>
                     </div>
                     <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>

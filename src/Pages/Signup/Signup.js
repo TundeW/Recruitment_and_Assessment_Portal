@@ -33,11 +33,6 @@ function Signup(props) {
     const togglePasswordVisibility = () => {
         setPasswordShown(passwordShown ? false: true);
     }
-    const [Shown, setShown] = useState(false);
-
-    const PasswordVisibility = () => {
-        setShown(Shown ? false: true);
-    }
 
     const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
 
@@ -166,7 +161,6 @@ function Signup(props) {
                     <img src={logo1} alt="Enyata logo" />
                 </div>
                 <p className='text'>Applicant Sign Up</p>
-                <form>
                 <div className="form-input1">
                 <div>
                 <FormInput label="First Name" type='text' name="first_name"  value={state.first_name} change={handleChange} labelColor="label-name"/>
@@ -194,16 +188,14 @@ function Signup(props) {
                 <div className="error-message">{errors.password.length > 0 && <span className='error'>{errors.password}</span>}</div>
                 </div>
                 <div>
-                <FormInput label= "Confirm password" type={Shown ? "text" : "password"} name="confirm_password"  value={state.confirm_password} change={handleChange} labelColor="label-name"/>
-                <div className="eyes" onClick={PasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
+                <FormInput label= "Confirm password" type={passwordShown ? "text" : "password"} name="confirm_password"  value={state.confirm_password} change={handleChange} labelColor="label-name"/>
                 <div className="error-message">{errors.confirm_password.length > 0 && <span className='error'>{errors.confirm_password}</span>}</div>
                 </div>
                 </div>
-                </form>
+                <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                 <div className="button">
                 <span  onClick= {submitForm}><Button  text="Sign Up" color="Button" load={loading}/></span>
                 </div>
-                <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                 <div className="forgot-password">
                 <span>Already have an account?<a href="signin"> Sign In</a></span>
                 </div>

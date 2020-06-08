@@ -302,6 +302,8 @@ function ComposeAssessment(props) {
              <div className="compose-assessment-form">
                <h2>Compose Assessment</h2>
                <div className='file_timer'>
+               <div className="assessment-grid">
+               <div>
                    <div className="question-number">Question {questionNav.currentQuestion + 1}</div>
                        <div className="upload-document-file">
                        <input type="file" id="file" name= "file"  onChange={fileChange}/>
@@ -309,6 +311,8 @@ function ComposeAssessment(props) {
                        <div className="plusicon"><img src = {plusicon} alt="plus-icon" /></div>
                        <div>{state.file ? state.file.name: ""}</div>
                          </div>
+                    </div>
+                    <div>
                     <div>
                     <span className='span_timer'>
                         <div className='span-timer'>
@@ -322,6 +326,8 @@ function ComposeAssessment(props) {
                             <img id='sortbtn' src={sort} />
                         </div>
                     </span>
+                    </div>
+                    </div>
                     </div>
                </div>
 
@@ -340,7 +346,7 @@ function ComposeAssessment(props) {
                 <div className="compose-assessment-answers">
                 <FormInput label="Answer" type='text' name="answer" value= {state.answer} change= {handleChange}  labelColor="label-name"  color="admin-application-forminput"/>
                 </div>
-                <div className="server-error">{answerError.length > 0 && <span className='error'>{answerError}</span>}</div>
+                <div className="admin-server-error">{answerError.length > 0 && <span className='error'>{answerError}</span>}</div>
 
 
                 <div className="compose-assessment-button">
