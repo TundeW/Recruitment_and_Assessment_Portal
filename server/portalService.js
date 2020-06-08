@@ -3,6 +3,7 @@ const db = require("./database");
 const moment = require("moment");
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const sendMail = require('./nodemailer');
 dotenv.config();
 
 
@@ -90,7 +91,7 @@ async function checkIfEmailAndPasswordMatch(body){
             return Promise.reject({
                 status: "bad request",
                 code: 400,
-                message: "The username and password combination you entered doesn't belong to a user.",
+                message: "The username and password does not match.",
             });
         }
 
@@ -284,6 +285,10 @@ async function createNewApplicant( body, cv, user_id) {
         }
 
         if (rowCount > 0){
+            const useremail = email;
+            const subject = 'Enyata Academy Application'
+            const text = `Your application into Academy ${application_id} has been received. You can monitor your application on your dashboard and take assessments`;
+            sendMail(useremail, subject, text)
             return Promise.resolve({
                 status: "success",
                 code: 201,
@@ -613,6 +618,65 @@ async function createNewQuestion( body, image) {
             status: "error",
             code: 500,
             message: "Error adding Questions",
+        });
+    }
+}
+
+
+async function UpdateQuestion( body, image) {
+    let imagename = null
+    if(image){
+        imagename = image.name;
+        image.mv('uploads/'+imagename, (err) => {
+            if (err) {
+                console.log('Could Not Upload file');
+            }
+            else{
+                console.log(imagename)
+            }
+        })
+    }
+
+
+    const {
+        id,
+        question,
+        option_a,
+        option_b,
+        option_c,
+        option_d,
+        answer
+    } = body;
+    const options = [option_a, option_b, option_c, option_d]
+    const queryObj = {
+        text: queries.updateQuestionById,
+        values: [question, options, answer, imagename, id],
+    };
+
+    try{
+        const { rowCount } = await db.query(queryObj);
+
+        if (rowCount == 0) {
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Could not update question",
+            });
+        }
+
+        if (rowCount > 0){
+            return Promise.resolve({
+                status: "success",
+                code: 201,
+                response: "Assessment Questions updated Successfully.",
+            });
+        }
+    } catch (e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error updating Questions",
         });
     }
 }
@@ -1107,6 +1171,7 @@ module.exports = {
     // getAllParcels,
     // getParcelsByUserId,
     // getParcelsByUserAndParcelId,
+    UpdateQuestion,
     authenticationnByToken,
     createNewApplication,
     createNewAssessment,

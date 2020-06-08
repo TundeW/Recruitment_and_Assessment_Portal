@@ -16,6 +16,7 @@ const {
     // createNewParcel,
     authorisationById,
     checkUserDetailsMatch,
+    UpdateQuestion,
     // authenticationById,
     // changeDestination,
     // parcelauthorisation,
@@ -245,12 +246,22 @@ router.post(
 router.post(
     "/auth/admin/application/create",
     async (req, res, next) =>{
-        // const { error } = loginValidation(req.body);
-        // if(error) {
-        //     return res.status(400).json({
-        //         message: error.details[0].message.replace(/[\"]/gi, "")
-        //     })
-        // }
+        const {
+            batch_id,
+            link,
+            deadline,
+            instructions,
+        } = req.body;
+        if (!batch_id || !link || !deadline || !instructions) {
+            return res.status(400).json({
+                message: "Please fill all fields",
+            });
+        }
+        if (!req.files) {
+            return res.status(400).json({
+                message: "Please upload a file",
+            });
+        }
         const { auth } = req.headers;
         const token = auth;
 
@@ -565,6 +576,46 @@ router.put(
             return res.status(e.code).json(e);
         }
 
+    }
+)
+
+
+router.put(
+    "/auth/admin/question/update",
+    async (req, res, next) =>{
+        // const { error } = loginValidation(req.body);
+        // if(error) {
+        //     return res.status(400).json({
+        //         message: error.details[0].message.replace(/[\"]/gi, "")
+        //     })
+        // }
+        const { auth } = req.headers;
+        const token = auth;
+
+        try {
+            await authenticationnByToken(token, req);
+            await authorisationById(req.user.role, "admin")
+
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+        next();
+    },
+    async (req, res) => {
+        const admin_id = req.user._id;
+        try{
+            let image
+            if(req.files){
+                image = req.files.file;
+            }
+
+            const result = await UpdateQuestion(req.body, image);
+            return res.status(201).json(result);
+
+        } catch (e) {
+            console.log(e)
+            return res.status(e.code).json(e);
+        }
     }
 )
 

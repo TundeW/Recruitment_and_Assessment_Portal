@@ -157,6 +157,10 @@ const queries = {
   UPDATE users SET file=($1) WHERE id=($2)
   `,
 
+  updateQuestionById: `
+  UPDATE questions SET question=($1), options=($2), answer=($3), image=($4) WHERE id=($5)
+  `,
+
 };
 
 module.exports = queries;
