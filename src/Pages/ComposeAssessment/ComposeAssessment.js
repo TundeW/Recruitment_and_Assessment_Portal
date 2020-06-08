@@ -17,6 +17,8 @@ function ComposeAssessment(props) {
         answer: ''
     })
 
+    const [answerError, setAnswerError] = useState('')
+
     const [assessment, setAssessment] = useState({
         application_id: null,
         time_min: '00',
@@ -70,119 +72,133 @@ function ComposeAssessment(props) {
         const { currentQuestion } = questionNav
         console.log(questionNav)
         console.log(questionList)
-
-        if(currentQuestion == questionList.length){
-            if (state.question && state.option_a && state.option_b && state.answer){
-                updateQuestionList([...questionList, state])
-
-                setState({
-                    file: "",
-                    question: "",
-                    option_a: "",
-                    option_b: "",
-                    option_c: "",
-                    option_d: "",
-                    answer: "",
-                })
-
-                setQuestionNav({
-                    currentQuestion: currentQuestion + 1,
-                    prevDisabled: false,
-                })
-            }
-
-        }else if(currentQuestion == questionList.length-1){
-            if(state.question && state.option_a && state.option_b && state.answer){
-                let copy = [...questionList]
-                copy[currentQuestion] = state
-                updateQuestionList([...copy])
-
-                setState({
-                    file: "",
-                    question: "",
-                    option_a: "",
-                    option_b: "",
-                    option_c: "",
-                    option_d: "",
-                    answer: "",
-                })
-
-                setQuestionNav({
-                    currentQuestion: currentQuestion + 1,
-                    prevDisabled: false,
-                })
-            }
-
+        if(state.answer.toString() != state.option_a.toString() && state.answer.toString() != state.option_b.toString() && state.answer.toString() != state.option_c.toString() && state.answer.toString() != state.option_d.toString()){
+            setAnswerError('Answer must be equal to one of the options')
         }else{
-            if(state.question && state.option_a && state.option_b && state.answer){
-                let copy = [...questionList]
-                copy[currentQuestion] = state
-                updateQuestionList([...copy])
+            setAnswerError('')
+            if(currentQuestion == questionList.length){
+                if (state.question && state.option_a && state.option_b && state.answer){
+                    console.log('apple')
+                    updateQuestionList([...questionList, state])
 
-                setState({
-                    file: questionList[currentQuestion + 1].file,
-                    question: questionList[currentQuestion + 1].question,
-                    option_a: questionList[currentQuestion + 1].option_a,
-                    option_b: questionList[currentQuestion + 1].option_b,
-                    option_c: questionList[currentQuestion + 1].option_c,
-                    option_d: questionList[currentQuestion + 1].option_d,
-                    answer: questionList[currentQuestion + 1].answer,
-                })
+                    setState({
+                        file: "",
+                        question: "",
+                        option_a: "",
+                        option_b: "",
+                        option_c: "",
+                        option_d: "",
+                        answer: "",
+                    })
 
-                setQuestionNav({
-                    currentQuestion: currentQuestion + 1,
-                    prevDisabled: false,
-                })
+                    setQuestionNav({
+                        currentQuestion: currentQuestion + 1,
+                        prevDisabled: false,
+                    })
+                }
+
+            }else if(currentQuestion == questionList.length-1){
+                if(state.question && state.option_a && state.option_b && state.answer){
+                    let copy = [...questionList]
+                    copy[currentQuestion] = state
+                    updateQuestionList([...copy])
+
+                    setState({
+                        file: "",
+                        question: "",
+                        option_a: "",
+                        option_b: "",
+                        option_c: "",
+                        option_d: "",
+                        answer: "",
+                    })
+
+                    setQuestionNav({
+                        currentQuestion: currentQuestion + 1,
+                        prevDisabled: false,
+                    })
+                }
+
+            }else{
+                if(state.question && state.option_a && state.option_b && state.answer){
+                    let copy = [...questionList]
+                    copy[currentQuestion] = state
+                    updateQuestionList([...copy])
+
+                    setState({
+                        file: questionList[currentQuestion + 1].file,
+                        question: questionList[currentQuestion + 1].question,
+                        option_a: questionList[currentQuestion + 1].option_a,
+                        option_b: questionList[currentQuestion + 1].option_b,
+                        option_c: questionList[currentQuestion + 1].option_c,
+                        option_d: questionList[currentQuestion + 1].option_d,
+                        answer: questionList[currentQuestion + 1].answer,
+                    })
+
+                    setQuestionNav({
+                        currentQuestion: currentQuestion + 1,
+                        prevDisabled: false,
+                    })
+                }
+
             }
-
         }
+
+
 
     }
 
     const previousQuestionHandler = () => {
         const { currentQuestion } = questionNav
-        if (currentQuestion == 1){
-            let copy = [...questionList]
-            copy[currentQuestion] = state
-            updateQuestionList([...copy])
-
-            setState({
-                file: questionList[currentQuestion - 1].file,
-                question: questionList[currentQuestion - 1].question,
-                option_a: questionList[currentQuestion - 1].option_a,
-                option_b: questionList[currentQuestion - 1].option_b,
-                option_c: questionList[currentQuestion - 1].option_c,
-                option_d: questionList[currentQuestion - 1].option_d,
-                answer: questionList[currentQuestion - 1].answer,
-            })
-
-            setQuestionNav({
-                currentQuestion: currentQuestion - 1,
-                prevDisabled: true,
-            })
+        if(state.answer.toString() != state.option_a.toString() && state.answer.toString() != state.option_b.toString() && state.answer.toString() != state.option_c.toString() && state.answer.toString() != state.option_d.toString()){
+            setAnswerError('answer must be equal to one of the options')
         }else{
-            if(state.question && state.option_a && state.option_b && state.answer){
+            setAnswerError('')
+            if (currentQuestion == 1){
                 let copy = [...questionList]
                 copy[currentQuestion] = state
                 updateQuestionList([...copy])
+
+                setState({
+                    file: questionList[currentQuestion - 1].file,
+                    question: questionList[currentQuestion - 1].question,
+                    option_a: questionList[currentQuestion - 1].option_a,
+                    option_b: questionList[currentQuestion - 1].option_b,
+                    option_c: questionList[currentQuestion - 1].option_c,
+                    option_d: questionList[currentQuestion - 1].option_d,
+                    answer: questionList[currentQuestion - 1].answer,
+                })
+
+                setQuestionNav({
+                    currentQuestion: currentQuestion - 1,
+                    prevDisabled: true,
+                })
+            }else{
+                if(state.question && state.option_a && state.option_b && state.answer){
+                    let copy = [...questionList]
+                    copy[currentQuestion] = state
+                    updateQuestionList([...copy])
+                }
+
+
+                setState({
+                    file: questionList[currentQuestion - 1].file,
+                    question: questionList[currentQuestion - 1].question,
+                    option_a: questionList[currentQuestion - 1].option_a,
+                    option_b: questionList[currentQuestion - 1].option_b,
+                    option_c: questionList[currentQuestion - 1].option_c,
+                    option_d: questionList[currentQuestion - 1].option_d,
+                    answer: questionList[currentQuestion - 1].answer,
+                })
+
+                setQuestionNav({
+                    currentQuestion: currentQuestion - 1,
+                    prevDisabled: false,
+                })
             }
-
-
-            setState({
-                file: questionList[currentQuestion - 1].file,
-                question: questionList[currentQuestion - 1].question,
-                option_a: questionList[currentQuestion - 1].option_a,
-                option_b: questionList[currentQuestion - 1].option_b,
-                option_c: questionList[currentQuestion - 1].option_c,
-                option_d: questionList[currentQuestion - 1].option_d,
-                answer: questionList[currentQuestion - 1].answer,
-            })
-
-            setQuestionNav({
-                currentQuestion: currentQuestion - 1,
-                prevDisabled: false,
-            })
         }
+
+
 
     }
 
@@ -324,6 +340,8 @@ function ComposeAssessment(props) {
                 <div className="compose-assessment-answers">
                 <FormInput label="Answer" type='text' name="answer" value= {state.answer} change= {handleChange}  labelColor="label-name"  color="admin-application-forminput"/>
                 </div>
+                <div className="server-error">{answerError.length > 0 && <span className='error'>{answerError}</span>}</div>
+
 
                 <div className="compose-assessment-button">
                 <span><button className='previous' disabled={questionNav.prevDisabled} onClick={previousQuestionHandler}>Previous</button></span>

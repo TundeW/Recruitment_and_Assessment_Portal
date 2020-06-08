@@ -10,6 +10,8 @@ const BatchPage = (props) => {
 
     const [sortby, setSortby] = useState('default')
     const [batch, setBatch] = useState(1)
+    const [apps, setApps] = useState([])
+
 
     const [entries, setEntries] = useState([])
 
@@ -40,6 +42,15 @@ const BatchPage = (props) => {
                 const copies = copy.map(c => ({...c, age: calculateAge(c.date_of_birth), birthdate: changeDateformat(c.date_of_birth)}))
                 console.log(copies)
                 setEntries([...copies])
+                let applications = [];
+                let arr = [...data.data]
+                arr.map(a =>( applications.push(a.application_id)))
+                // console.log(applications)
+                let unique = [...new Set(applications)]
+                // console.log(unique)
+                let apps = unique.sort()
+                console.log(apps)
+                setApps([...apps])
             }
         })
     },[])
@@ -159,10 +170,11 @@ const BatchPage = (props) => {
                     <div className='result-entries'>
                         <p id='result-entry-text'>Entries - </p>
                         <select value={batch.selectValue} onChange={handleChange}>
-                            <option> Batch 1 </option>
-                            <option> Batch 2 </option>
-                            <option> Batch 3 </option>
-                            <option> Batch 4 </option>
+                            {apps.map(app => {
+                                return (
+                                    <option>Batch {app}</option>
+                                )
+                            })}
                         </select>
                     </div>
                     <p id='result-entry-text2'>{`Comprises of all that applied for batch ${batch}`}</p>

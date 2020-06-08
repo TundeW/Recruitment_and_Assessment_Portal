@@ -19,6 +19,7 @@ const [state, setState] = useState({
     id: "",
     assessment_id: ""
 })
+const [edit, setEdit] = useState(false)
 
 const [assessmentid, setAssessmentid] = useState()
 
@@ -58,16 +59,18 @@ useEffect(()=>{
 
 const fileChange = e => {
     e.preventDefault()
-    setState({
-        ...state,
-        file: e.target.files[0]
-    })
+    if (edit){
+        setState({
+            ...state,
+            file: e.target.files[0]
+        })
+    }
+
 }
 
 const handleChange = e => {
     e.preventDefault()
-    const a = false;
-    if (a) {
+    if (edit) {
         setState({
             ...state,
             [e.target.name]: [e.target.value]
@@ -76,8 +79,51 @@ const handleChange = e => {
 
 }
 
+const toggleEdit = () =>{
+    setEdit(!edit)
+}
+
+
+const updateQuestion = async (question, token) =>{
+    console.log('inner function is running')
+
+        var formData = new FormData()
+        for (var key in question){
+            formData.append(key, question[key])
+        }
+
+        const requestOptions = {
+            method: 'put',
+            headers: {
+                'auth': token
+            },
+            body: formData,
+        };
+
+        const url = 'http://localhost:5000/api/v1//auth/admin/question/update';
+        console.log('before fetch')
+        fetch(url, requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    // Here you should have logic to handle invalid creation of a user.
+                    // This assumes your Rails API will return a JSON object with a key of
+                    // 'message' if there is an error with creating the user, i.e. invalid username
+                    console.log(data.message)
+                } else {
+                    console.log(data.response)
+                 }
+            })
+            .catch(error => console.log(error));
+
+}
+
+
 const submitForm = (e) => {
     e.preventDefault()
+    const token = localStorage.getItem("token")
+
+    updateQuestion(state, token)
     if(currentQuestion < questionList.length-1){
         setCurrentQuestion(currentQuestion + 1);
         setState({
@@ -206,19 +252,18 @@ return (
                     }
                 </div>
             </div>
-            <div>
+            <div className='file-time-button'>
                 <div className='Assess-History-section'>
                     <div className="upload-assessment-file">
-                    <input type="file" id="file" name= "file"  onChange={fileChange}/>
-                    <div className="file-text"><label for="file" >Choose file</label></div>
-                    <div className="plusicon"><img src = {plusicon} alt="plus-icon" /></div>
-                    <div>{state.file ? state.file.name: ""}</div>
+                        <input type="file" id="file" name= "file"  onChange={fileChange}/>
+                        <div className="file-text"><label for="file" >Choose file</label></div>
+                        <div className="plusicon"><img src = {plusicon} alt="plus-icon" /></div>
+                        <div>{state.file ? state.file.name: ""}</div>
+                    </div>
+                    <div><button onClick = {toggleEdit} className = {`edit-button ${edit ? 'ena-button' : 'dis-button'}`}>Edit {edit ? 'true': 'false'}</button></div>
+
                 </div>
-                <br/>
-                <div></div>
-                <div></div>
             </div>
-        </div>
         <div className="assessment-history-input">
             <p>Questions</p>
             <textarea name="question" value= {state.question} className="assessment-instruction" onChange= {handleChange} ></textarea>

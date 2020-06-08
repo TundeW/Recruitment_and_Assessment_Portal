@@ -257,10 +257,10 @@ function ApplicationForm(props) {
                     {errors.cgpa.length > 0 && <span className='error'>{errors.cgpa}</span>}
                 </div>
                 </div>
+                <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                 <div className="submit-button">
                     <span onClick= {submitForm}><Button text="Submit" color="Button"/></span>
                 </div>
-                <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
             </div>
             <br/>
             <br/>

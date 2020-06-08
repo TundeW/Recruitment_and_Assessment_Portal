@@ -6,6 +6,8 @@
 }
 .Assess-History-section{
     margin-top: 30px;
+    display: flex;
+    align-items: center;
 }
 
 .ass-table table{
@@ -80,4 +82,30 @@ border-radius: 8px;
 
 .assess_row:hover{
     cursor: pointer;
+}
+
+.edit-button{
+    margin-top: 50px;
+    width: 125px;
+    height: 40px;
+    color: #FFFFFF;
+    border-radius: 4px;
+    border: none;
+    margin-left: 200px;
+}
+
+.edit-button:hover{
+    cursor: pointer;
+}
+
+.ena-button{
+    background-color: #FF9900;
+}
+
+.dis-button{
+    background-color: #CECECE;
+}
+
+.file-time-button{
+    display: inline-block;
 }

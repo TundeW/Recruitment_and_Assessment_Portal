@@ -16,9 +16,13 @@ function AdminApplication(props) {
             application_closure_date: "",
             batch_id: "",
             instructions: "",
-        }
+        },
+        submitErrors: ''
     });
     const [link, setLink] = useState('')
+
+    const [loading, setLoading] = useState(false)
+
 
     useEffect(()=>{
         const token = localStorage.getItem('token')
@@ -80,7 +84,8 @@ function AdminApplication(props) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        const data = (({ errors, ...o }) => o)(state)
+        setLoading(true)
+        const data = (({ errors, submitErrors, ...o }) => o)(state)
         const request = {...data, link}
         console.log(request)
         const token = localStorage.getItem("token")
@@ -108,6 +113,10 @@ function AdminApplication(props) {
                     // This assumes your Rails API will return a JSON object with a key of
                     // 'message' if there is an error with creating the user, i.e. invalid username
                     console.log(data.message)
+                    setState({
+                        ...state, submitErrors: data.message
+                     })
+                    setLoading(false)
                 } else {
                     console.log(data.response)
                     // console.log(data.data.token)
@@ -163,8 +172,9 @@ function AdminApplication(props) {
                    <br />
                    {errors.instructions.length > 0 && <span className='error'>{errors.instructions}</span>}
                </div>
+               <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
                <div className="admin-application-button">
-               <span onClick={ submitForm }><Button text="Submit" color="Button"/></span>
+               <span onClick={ submitForm }><Button text="Submit" color="Button" load= {loading}/></span>
                </div>
                </div>
            </div>
