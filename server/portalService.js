@@ -1150,6 +1150,83 @@ async function uploadUserPic(image, user_id) {
     }
 }
 
+async function getUserByemail(body){
+    const { email } = body
+    const queryObj = {
+        text: queries.findUserByEmail,
+        values: [email],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "This Email is wrong, Retry with the correct Email",
+            });
+        }
+        if (rowCount > 0) {
+            const useremail = email;
+            const subject = 'Androids Portal - Reset Password'
+            const token = jwt.sign({_id: rows[0].id, role: rows[0].role}, process.env.TOKEN_SECRET);
+            const text = `Follow this link to reset your password. http://localhost:3000/reset/password/${token}/n/n`;
+            const link = `http://localhost:3000/reset/password/${token}/n/n`;
+            // await sendMail(useremail, subject, text)
+            return Promise.resolve({
+                status: "success",
+                code: 200,
+                response: "Password reset link has been sent to your Email",
+                data: link
+            });
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error fetching User",
+        });
+    }
+}
+
+
+async function updateUserPasswordById(body, id){
+    const { password } = body
+    const queryObj = {
+        text: queries.updatePasswordById,
+        values: [password, id],
+    };
+
+    try{
+        const { rowCount, rows } = await db.query(queryObj);
+        if (rowCount == 0) {
+
+            return Promise.reject({
+                status: "error",
+                code: 500,
+                message: "Could Not update Password",
+            });
+        }
+        if (rowCount > 0) {
+            return Promise.resolve({
+                status: "success",
+                code: 200,
+                response: "Successfully Updated Password",
+                data: rows
+            });
+        }
+    } catch(e) {
+        console.log(e);
+        return Promise.reject({
+            status: "error",
+            code: 500,
+            message: "Error updating Password",
+        });
+    }
+}
+
 
 
 
@@ -1197,4 +1274,6 @@ module.exports = {
     getLatestApplicationDate,
     getLatestApplicationId,
     checkUserDetailsMatch,
+    getUserByemail,
+    updateUserPasswordById,
 };

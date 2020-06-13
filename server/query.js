@@ -161,6 +161,14 @@ const queries = {
   UPDATE questions SET question=($1), options=($2), answer=($3), image=($4) WHERE id=($5)
   `,
 
+  findUserByEmail: `
+  SELECT * FROM users WHERE email=($1)
+  `,
+
+  updatePasswordById: `
+  UPDATE users SET Password=crypt( $1, gen_salt('bf')) WHERE id=($2)
+  `,
+
 };
 
 module.exports = queries;

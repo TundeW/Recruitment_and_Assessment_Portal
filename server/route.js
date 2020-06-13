@@ -47,6 +47,8 @@ const {
     getAllAssessments,
     getLatestApplicationId,
     uploadUserPic,
+    getUserByemail,
+    updateUserPasswordById,
 } = require("./portalService");
 
 
@@ -702,6 +704,69 @@ router.put(
             }
             console.log(image)
             const result = await uploadUserPic(image, user_id);
+            return res.status(201).json(result);
+
+        } catch (e) {
+            console.log(e)
+            return res.status(e.code).json(e);
+        }
+    }
+)
+
+router.post(
+    "/auth/sendpasswordlink",
+    (req, res, next) => {
+        // LETS VALIDATE THE DATA
+        // const { error } = signupValidation(req.body);
+        // if(error) {
+        //     return res.status(400).json({
+        //         message: error.details[0].message.replace(/[\"]/gi, "")
+        //     })
+        // }
+        // const { first_name, last_name, email, password, state} = req.body;
+        // if (!first_name || !last_name || !email || !password || !state) {
+        //     return res.status(400).json({
+        //         message: "Please fill all fields",
+        //     });
+        // }
+        next();
+    },
+    async (req, res) => {
+        try{
+            const result = await getUserByemail(req.body);
+            return res.status(201).json(result);
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+    }
+);
+
+
+router.post(
+    "/auth/resetpassword",
+    async (req, res, next) =>{
+        // const { error } = loginValidation(req.body);
+        // if(error) {
+        //     return res.status(400).json({
+        //         message: error.details[0].message.replace(/[\"]/gi, "")
+        //     })
+        // }
+        const { auth } = req.headers;
+        const token = auth;
+
+        try {
+            await authenticationnByToken(token, req);
+
+        } catch(e) {
+            return res.status(e.code).json(e);
+        }
+        next();
+    },
+    async (req, res) => {
+        const user_id = req.user._id;
+        try{
+
+            const result = await updateUserPasswordById(req.body, user_id);
             return res.status(201).json(result);
 
         } catch (e) {
