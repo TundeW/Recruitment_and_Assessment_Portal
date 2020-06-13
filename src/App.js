@@ -17,6 +17,9 @@ import EntriesResult from './Pages/EntriesResult/entriesResult';
 import Example from './Pages/userDB/example'
 import UserAssessment from './Pages/UserAssessment/UserAssessment';
 import TakeAssessment from './Pages/TakeAssessment/takeAssessment';
+import ResetPassword from './Pages/ResetPassword/ResetPassword';
+import Loader from './Components/Loader/Loader';
+import ForgotPassword from './Pages/ForgotPassword/ForgotPassword';
 // import 'bootstrap/dist/css/bootstrap.min.css'
 
 
@@ -42,6 +45,9 @@ function App() {
     <Route exact path='/admin/results' component={EntriesResult} />
     <Route exact path='/user/assessment' component={UserAssessment} />
     <Route exact path='/assessment/start' component={TakeAssessment} />
+    <Route exact path='/reset/password/:token/n/n' component={ResetPassword} />
+    <Route exact path='/loader' component={Loader} />
+    <Route exact path='/forgot/password' component={ForgotPassword} />
    </Switch>
    </BrowserRouter>
    </UserContextProvider>

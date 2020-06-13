@@ -89,7 +89,6 @@ const UserDb = (props) => {
                         {/* <AssessTest text='We have 4 days left until the next assessment Watch this space' />
                         <Button text='Take Assessment' /> */}
                     </div>
-
                 </div>
             </div>
         </div>

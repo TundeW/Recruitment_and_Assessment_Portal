@@ -1,22 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
 import FormInput from '../../Components/FormInput/FormInput';
 import Button from '../../Components/Button/Button'
-import logo from './Enyata.svg';
-import logo1 from './enyata logo.svg';
-import './SignIn.css'
+import logo from '../../Components/mainicons/Enyata.1.svg';
+import logo1 from '../../Components/mainicons/enyatalogo.svg';
 import { UserContext } from '../../context/UserContext';
 import eyes from '../../Components/mainicons/eyeslogo.svg'
 import Loader from '../../Components/Loader/Loader'
+import './ForgotPassword.css'
 
-function SignIn(props) {
+function ForgotPassword(props) {
     const [state, setState] = useState({
         email: '',
-        password: '',
         errors: {
             email: '',
-            password: '',
         },
-        submitErrors: ''
+        submitErrors: '',
+        submitSuccess: ''
     });
 
 
@@ -51,12 +50,6 @@ function SignIn(props) {
                         ? ''
                         : 'Email is not valid!';
                 break;
-            case 'password':
-                errors.password =
-                    value.length < 3
-                        ? 'Password must be 3 characters long!'
-                        : '';
-                break;
             default:
                 break;
         }
@@ -82,47 +75,32 @@ function SignIn(props) {
                 body: JSON.stringify(request),
             };
 
-            const url = 'http://localhost:5000/api/v1/auth/login';
+            const url = 'http://localhost:5000/api/v1/auth/sendpasswordlink';
 
-
-            fetch(url, requestOptions)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        // Here you should have logic to handle invalid creation of a user.
-                        // This assumes your Rails API will return a JSON object with a key of
-                        // 'message' if there is an error with creating the user, i.e. invalid username
-                        setState({
-                            ...state, submitErrors: data.message
+                    fetch(url, requestOptions)
+                   .then(response => response.json())
+                   .then(data => {
+                      if (data.message) {
+                         // Here you should have logic to handle invalid creation of a user.
+                         // This assumes your Rails API will return a JSON object with a key of
+                         // 'message' if there is an error with creating the user, i.e. invalid username
+                           setState({
+                               ...state, submitErrors: data.message, submitSuccess: ''
+                            })
+                            setLoading(false)
+                       console.log(data.message)
+                     } else {
+                         console.log(data.response)
+                          console.log(data.data)
+                         // console.log(data.user)
+                         setState({
+                            ...state, submitSuccess: data.response, submitErrors: ''
                          })
                          setLoading(false)
-                        console.log(data.message)
-                    } else {
-                        console.log(data.response)
-                        // console.log(data.data.token)
-                        // console.log(data.user)
-                        localStorage.setItem("token", data.data.token)
-                        if (data.user.application) {
-                            props.history.push({
-                                pathname: '/home'
-                            })
-                        }else{
-                            props.history.push({
-                                pathname: '/application/' + data.data.latest_id
-                            })
-                        }
                     }
                 })
-                .catch(error => console.log(error));
+                 .catch(error => console.log(error));
 
-
-
-
-        // setState({
-        //     ...state,
-        //     email: "",
-        //     password: "",
-        // })
         }else{
             console.log('Invalid Form')
         }
@@ -130,7 +108,7 @@ function SignIn(props) {
     }
 
     return (
-        <div className="background-container">
+        <div className="background">
             <div className="form">
                 <div className="enyata-logo">
                     <img src={logo} alt="Enyata logo" />
@@ -138,28 +116,20 @@ function SignIn(props) {
                 <div className="enyata-logo2">
                     <img src={logo1} alt="Enyata logo" />
                 </div>
-                <p className="sign-in-text">Applicant Log In</p>
-                <form>
+                <h3 className="heading">Forgot Password</h3>
+                <p className="forgot-password-text">Don't worry, Resetting your password is easy,<br /> just tell us the email you registered with.</p>
                     <div className="form-label">
                         <FormInput label="Email Address" type='text' name="email" value={state.email} change={handleChange} labelColor="label-name"  noValidate />
                         {errors.email.length > 0 && <span className='error'>{errors.email}</span>}
-                        <br />
-                        <FormInput label="Password" type={passwordShown ? "text" : "password"} name="password" value={state.password} change={handleChange} labelColor="label-name" noValidate />
-                        <div className="eyes-signin" onClick={togglePasswordVisibility}><img src={eyes} alt="toggle-check" /></div>
-                        {errors.password.length > 0 && <span className='error'>{errors.password}</span>}
                     </div>
                     <div className="submit">
-                        <span onClick={submitForm}><Button text="Sign In" color="Button" load={loading} /></span>
+                        <span onClick={submitForm}><Button text="Send" color="Button" load={loading}/></span>
                     </div>
                     <div className="server-error">{state.submitErrors.length > 0 && <span className='error'>{state.submitErrors}</span>}</div>
-                    <div className="f-password">
-                        <span>Don’t have an account yet? <a href="/"> Sign Up </a></span>
-                        <span className="forget-two"> <a href='/forgot/password'>Forgot Password</a></span>
-                    </div>
-                </form>
+                    <div className='server-success'>{state.submitSuccess.length > 0 && <span>{state.submitSuccess}</span>}</div>
             </div>
         </div>
     )
 
 }
-export default SignIn;
+export default ForgotPassword;

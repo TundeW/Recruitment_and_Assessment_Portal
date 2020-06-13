@@ -264,7 +264,7 @@ return (
                         <div className="plusicon"><img src = {plusicon} alt="plus-icon" /></div>
                         <div>{state.file ? state.file.name: ""}</div>
                     </div>
-                    <div><button onClick = {toggleEdit} className = {`edit-button ${edit ? 'ena-button' : 'dis-button'}`}>Edit {edit ? 'true': 'false'}</button></div>
+                    <div><button onClick = {toggleEdit} className = {`edit-button ${edit ? 'ena-button' : 'dis-button'}`}>Edit</button></div>
 
                 </div>
             </div>

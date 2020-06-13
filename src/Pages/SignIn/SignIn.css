@@ -44,9 +44,11 @@
      color: #4F4F4F;
      margin-top: 15px;
      margin: 0;
+     
  }
  .forget-two{
      margin-left: 64px;
+     font-size: 13px;
  }
 .error{
     font-size: 15px;
